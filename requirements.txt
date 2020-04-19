@@ -1,3 +1,7 @@
 chinesecalendar
 beautifulsoup4
+bs4
 selenium
+lxml
+pandas==0.25.3
+baostock==0.8.8
