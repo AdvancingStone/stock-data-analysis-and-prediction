@@ -1,0 +1,7 @@
+*.idea
+*.iml
+target/
+*.test
+_init_.py
+*.log
+venu/
