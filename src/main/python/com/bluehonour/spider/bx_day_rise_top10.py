@@ -46,6 +46,8 @@ def get_stock_data(jys, path):
     date = soup.select_one("#inputDate").string
     dt2 = date # yyyy-MM-dd
     dt = date.replace("-", "") # yyyyMMdd
+    weekday = ''
+
     list = soup.find(class_='maincont').find(class_='tab1')
 
     title_items = list.find(class_='h101').find_all('th')   #获取标题
@@ -55,6 +57,7 @@ def get_stock_data(jys, path):
     title_list.append('交易所')
     title_list.append("dt2")
     title_list.append("dt")
+    title_list.append("weekday")
 
     for i in title_list:
         print(i, end='\t')
@@ -71,6 +74,8 @@ def get_stock_data(jys, path):
         column_list.append(jys)
         column_list.append(dt2)
         column_list.append(dt)
+        column_list.append(weekday)
+
         row_list.append(column_list)
         column_list = []
     save_file(path)
