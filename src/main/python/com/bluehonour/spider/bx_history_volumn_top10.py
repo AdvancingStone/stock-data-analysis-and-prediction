@@ -164,7 +164,7 @@ def get_interval_range_data(path, start_date, end_date):
 if __name__ == '__main__':
     try:
         path = get_stock_data_path() + '/bx_day_rise_top10'
-        get_interval_range_data(path, '20200101', '20200419')
+        get_interval_range_data(path, '20200101', '20200421')
         # get_latest_days_data(path, 30)
     finally:
         driver.quit()
