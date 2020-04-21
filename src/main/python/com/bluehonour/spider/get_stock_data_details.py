@@ -71,13 +71,18 @@ if __name__ == '__main__':
     #     print(end_date)
 
     # # 获取 [start_date, end_date] 全部股票的日K线数据
-    start_date = '2018-01-01'
-    end_date = '2020-04-21'
+    # start_date = '2018-01-01'
+    # end_date = '2020-04-21'
 
-    print(start_date, end_date)
+    print("请输入起始日期和结束日期，格式  yyyy-MM-dd")
+    start_date = input("起始日期: ")
+    end_date = input("结束日期: ")
+    yearmonth = start_date[:7]
+
+    print(start_date, end_date, yearmonth)
     # date_end必须是一个工作日，否则出现意想不到的结果
     path = get_stock_data_path() + '/details'
     # print(path)
-    downloader = Downloader(path, date_start=start_date, date_end=end_date)
-    downloader.run()
+    # downloader = Downloader(path, date_start=start_date, date_end=end_date)
+    # downloader.run()
 
