@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import baostock as bs
 import os
 import sys
