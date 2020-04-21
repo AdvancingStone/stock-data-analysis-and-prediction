@@ -77,8 +77,8 @@ if __name__ == '__main__':
 
     print(start_date, end_date)
     # date_end必须是一个工作日，否则出现意想不到的结果
-    path = get_stock_data_path()
-    print(path)
+    path = get_stock_data_path() + '/details'
+    # print(path)
     downloader = Downloader(path, date_start=start_date, date_end=end_date)
     downloader.run()
 
