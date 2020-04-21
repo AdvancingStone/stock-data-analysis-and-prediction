@@ -1,5 +1,7 @@
 import baostock as bs
 import os
+import sys
+sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
 import datetime
 from chinese_calendar import is_holiday
 from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
