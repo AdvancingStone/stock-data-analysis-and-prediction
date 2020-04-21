@@ -101,9 +101,9 @@ def save_file(path):
             row_result = ''
             for j in i:
                 result = j.replace("%", '')
-                row_result += (result + '\t')
-            f.write(row_result.strip() + '\n')
-            print(row_result.strip())
+                row_result += ('\t' + result)
+            f.write(row_result.lstrip() + '\n')
+            print(row_result.lstrip())
         f.close()
 
 
