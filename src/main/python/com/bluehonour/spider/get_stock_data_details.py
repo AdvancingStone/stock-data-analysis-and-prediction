@@ -64,19 +64,20 @@ class Downloader(object):
 
 if __name__ == '__main__':
     # 获取前30天的股票数据
-    start_date = get_pre_date(10)
-    end_date = datetime.datetime.today().strftime('%Y-%m-%d')
-    while is_holiday(datetime.datetime.strptime(end_date,'%Y-%m-%d')):
-        end_date = get_pre_date(1, end_date)
-        print(end_date)
+    # start_date = get_pre_date(10)
+    # end_date = datetime.datetime.today().strftime('%Y-%m-%d')
+    # while is_holiday(datetime.datetime.strptime(end_date,'%Y-%m-%d')):
+    #     end_date = get_pre_date(1, end_date)
+    #     print(end_date)
 
     # # 获取 [start_date, end_date] 全部股票的日K线数据
-    # start_date = '2018-01-01'
-    # end_date = '2020-04-17'
+    start_date = '2018-01-01'
+    end_date = '2020-04-21'
 
     print(start_date, end_date)
     # date_end必须是一个工作日，否则出现意想不到的结果
-    path = get_stock_data_path
+    path = get_stock_data_path()
+    print(path)
     downloader = Downloader(path, date_start=start_date, date_end=end_date)
     downloader.run()
 
