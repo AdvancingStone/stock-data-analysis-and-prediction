@@ -1,7 +1,6 @@
 *.idea
 *.iml
 target/
-*.test
-_init_.py
+test
 *.log
 venu/
