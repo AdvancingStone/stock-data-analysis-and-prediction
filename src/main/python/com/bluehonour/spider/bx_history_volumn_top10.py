@@ -10,6 +10,7 @@ from chinese_calendar import is_workday, is_holiday
 import datetime
 from pathlib import Path
 import sys
+import os
 sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
 from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 
@@ -106,7 +107,7 @@ def save_file(path):
     title_list.clear()
 
     # 保存数据并打印数据
-    with open(str(path), 'a', encoding='UTF-8') as f:  # a追加写入
+    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
         for i in row_list:
             row_result = ''
             for j in i:
@@ -164,8 +165,15 @@ def get_interval_range_data(path, start_date, end_date):
 
 if __name__ == '__main__':
     try:
-        path = get_stock_data_path() + '/bx_day_rise_top10'
-        get_interval_range_data(path, '20200101', '20200421')
+        print("请输入起始日期和结束日期，格式  yyyyMMdd")
+        start_date = input("起始日期: ")
+        end_date = input("结束日期: ")
+        yearmonth = start_date[:6]
+        path = get_stock_data_path() + '/bx_history_volumn/' + yearmonth
+        if not os.path.exists(path):
+            os.makedirs(path)
+        file_path = path + '/bx_day_rise_top10'
+        get_interval_range_data(file_path, start_date, end_date)
         # get_latest_days_data(path, 30)
     finally:
         driver.quit()
