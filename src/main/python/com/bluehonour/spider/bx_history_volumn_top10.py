@@ -25,6 +25,8 @@ title_list = []
 # 创建一个存放股票数据的二维列表
 row_list = []  # 行
 column_list = []  # 列
+# 北向买卖A股的时间列表
+data_list = []
 
 # driver = webdriver.Chrome()
 # driver.set_window_position(0, 0)
@@ -40,8 +42,8 @@ options.add_argument('--disable-gpu')
 # driver = webdriver.Chrome(executable_path='chromedriver', options=options)# 配了环境变量第一个参数就可以省了，不然传绝对路径
 driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 
-driver.get("http://data.eastmoney.com/hsgt/top10.html")
-current_url = driver.current_url
+# driver.get("http://data.eastmoney.com/hsgt/top10.html")
+current_url = "http://data.eastmoney.com/hsgt/top10.html"
 WAIT = WebDriverWait(driver, 10)
 
 def get_stock_data(path):
@@ -65,6 +67,10 @@ def get_stock_data(path):
 
         list = soup.select(".sitebody > .maincont > .contentBox > .content > .tab1")[index]
         # print(list)
+        # 写入时间
+        if index == 0:
+            data_list.append(dt)
+
         title_items = list.find(class_='h101').find_all('th')   #获取标题
         for item in title_items:
             if '相关' not in item.string:
@@ -73,7 +79,6 @@ def get_stock_data(path):
         title_list.append("dt2")
         title_list.append("dt")
         title_list.append("周几")
-
 
         global column_list
         content_items = list.select("tbody > tr")
@@ -147,11 +152,11 @@ def get_interval_range_data(path, start_date, end_date):
     :param start_date: 开始时间
     :param end_date: 结束时间
     """
-    pre_one_day = datetime.timedelta(days=1)
-    start_date = datetime.datetime.strptime(start_date,'%Y%m%d').date()
-    today = datetime.datetime.strptime(end_date,'%Y%m%d').date()
+    last_one_day = datetime.timedelta(days=1)
+    today = datetime.datetime.strptime(start_date,'%Y%m%d').date()
+    end_date = datetime.datetime.strptime(end_date,'%Y%m%d').date()
 
-    while today >= start_date:
+    while end_date >= today:
         print(today)
         if is_workday(today):
             # remove_time = 'document.getElementById("inputDate").removeAttribute("readonly");'
@@ -160,7 +165,17 @@ def get_interval_range_data(path, start_date, end_date):
             # driver.execute_script(add_time)
             driver.get(current_url[:-5] + "/" + str(today) + ".html")
             get_stock_data(path)
-        today = today-pre_one_day
+        today = today + last_one_day
+
+def save_date(path):
+    path = Path(path)
+    # 保存数据并打印数据
+    print("写入时间：")
+    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
+        for i in data_list:
+            f.write(i + '\n')
+            print(i)
+        f.close()
 
 
 if __name__ == '__main__':
@@ -175,5 +190,8 @@ if __name__ == '__main__':
         file_path = path + '/bx_day_rise_top10'
         get_interval_range_data(file_path, start_date, end_date)
         # get_latest_days_data(path, 30)
+
+        # 输出北向时间
+        save_date(get_stock_data_path() + '/北向买卖A股时间')
     finally:
         driver.quit()
