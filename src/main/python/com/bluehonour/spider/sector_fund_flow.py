@@ -12,10 +12,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 import sys
 import os
 #__file__获取执行文件相对路径，整行为取上一级的上一级目录
-BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(BASE_DIR)
 
-
+print(os.path.abspath(__file__))
+print(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
 """
 获取行业资金流信息

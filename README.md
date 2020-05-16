@@ -116,19 +116,40 @@ path=/home/xxx/stock-data
 
 北向买卖时间获取代码参考 [get_bx_behavior_date.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_bx_behavior_date.py)
 
-```
+```bash
 >> python get_bx_behavior_date.py
 ```
 
 获取单个股票数据 [git_single_stock_data.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/git_single_stock_data.py) 
 
-```
+```bash
 >> python git_single_stock_data.py 
 ```
 
 主力每天的板块资金流 [sector_fund_flow.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/sector_fund_flow.py)
 
-```
+```bash
 >> python sector_fund_flow.py
+```
+
+
+
+### hive sql 表的创建
+
+```
+执行根目录下 sql/create-table.sql
+```
+
+
+
+### 导入数据
+
+```hive
+# 用法 local从本地导入， overwrite是否覆盖，partition分区导入
+load data [local] inpath filepath [overwrite] into table tablename [partition (a1=a2,b1=b2,...)]
+# 从本地导入
+load data local inpath '/home/xxx/stock-data/details/2020-01' overwrite into table stock_details partition (yearmonth=202001);
+# 从hdfs导入
+load data inpath '/home/xxx/stock-data/details/2020-01' overwrite into table stock_details partition (yearmonth=202001);
 ```
 
