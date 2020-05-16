@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import sys
 import os
+import shutil
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))#__file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 from utils import *
@@ -188,8 +189,9 @@ if __name__ == '__main__':
         end_date = input("结束日期: ")
         yearmonth = start_date[:6]
         path = get_stock_data_path() + '/bx_history_volumn/' + yearmonth
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if os.path.exists(path):
+            shutil.rmtree(path=path)
+        os.mkdir(path)
         file_path = path + '/bx_day_volumn_top10'
         get_interval_range_data(file_path, start_date, end_date)
         # get_latest_days_data(path, 30)

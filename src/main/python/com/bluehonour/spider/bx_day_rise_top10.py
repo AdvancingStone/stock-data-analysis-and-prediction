@@ -6,7 +6,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
-import sys,os
+import sys, os
 from pathlib import Path
 #__file__获取执行文件相对路径，整行为取上一级的上一级目录
 BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,8 +43,6 @@ WAIT = WebDriverWait(driver, 10)
 def get_stock_data(jys, path):
     if jys.__eq__("深证"):
         input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mk_sdcjsj > #BK08041")))
-        print(input.text)
-        print(type(input))
         input.click()
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
@@ -83,8 +81,14 @@ def get_stock_data(jys, path):
 
         row_list.append(column_list)
         column_list = []
-    save_file(path)
-    row_list.clear()
+
+    path = path+"/"+dt[:-2]+"/"
+    if not os.path.isdir(path):
+        os.makedirs(path)
+        print(path+"创建成功")
+    return path + dt
+    # save_file(path + dt)
+    # row_list.clear()
 
 
 def save_file(path):
@@ -92,7 +96,7 @@ def save_file(path):
     # if path.exists():
     #     os.remove(path)
     print('开始写入数据 ====> ')
-    with open(str(path), 'a', encoding='UTF-8') as f:  # a追加写入
+    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
         for i in row_list:
             row_result = ''
             for j in i:
@@ -106,8 +110,11 @@ def save_file(path):
 if __name__ == '__main__':
 
     try:
-        path = get_stock_data_path() + '/bx_day_rise_top10'
+        path = get_stock_data_path() + '/bx_day_rise_top10/'
         get_stock_data("上证", path)
-        get_stock_data("深证", path)
+        path = get_stock_data("深证", path)
+        print(path)
+        save_file(path)
+
     finally:
         driver.quit()

@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-import sys,os
+import sys, os
 from pathlib import Path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -82,8 +82,14 @@ def get_stock_data(jys, path):
         column_list.append(weekday)
         row_list.append(column_list)
         column_list = []
-    save_file(path)
-    row_list.clear()
+
+    path = path+"/"+dt[:-2]+"/"
+    if not os.path.isdir(path):
+        os.makedirs(path)
+        print(path+"创建成功")
+    return path + dt
+    # save_file(path)
+    # row_list.clear()
 
 
 for i in row_list:
@@ -98,7 +104,7 @@ def save_file(path):
     # if path.exists():
     #     os.remove(path)
     print('开始写入数据 ====> ')
-    with open(str(path), 'a', encoding='UTF-8') as f:  # a追加写入
+    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
         for i in row_list:
             row_result = ''
             for j in i:
@@ -113,6 +119,7 @@ if __name__ == '__main__':
     try:
         path = get_stock_data_path() + '/bx_day_volume_top10'
         get_stock_data("上证", path)
-        get_stock_data("深证", path)
+        path = get_stock_data("深证", path)
+        save_file(path)
     finally:
         driver.quit()
