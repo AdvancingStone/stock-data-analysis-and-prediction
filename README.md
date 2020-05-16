@@ -120,10 +120,10 @@ path=/home/xxx/stock-data
 >> python get_bx_behavior_date.py
 ```
 
-获取单个股票数据 [git_single_stock_data.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/git_single_stock_data.py) 
+获取单个股票数据 [get_single_stock_data.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_single_stock_data.py) 
 
 ```bash
->> python git_single_stock_data.py 
+>> python get_single_stock_data.py 
 ```
 
 主力每天的板块资金流 [sector_fund_flow.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/sector_fund_flow.py)
