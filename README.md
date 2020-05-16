@@ -3,9 +3,7 @@
 
 
 
-### 观测 Observation
-
-策略网络观测的就是一只股票的各项参数，比如开盘价、收盘价、成交数量等。部分数值会是一个很大的数值，比如成交金额或者成交量，有可能百万、千万乃至更大，为了训练时网络收敛，观测的状态数据输入时，必须要进行归一化，变换到 `[-1, 1]` 的区间内。
+### 股票具体细节
 
 | 参数名称    | 参数描述         | 说明                                |
 | ----------- | ---------------- | ----------------------------------- |
@@ -78,27 +76,45 @@ pip install -r requirements.txt
 >> pip install baostock -i https://pypi.tuna.tsinghua.edu.cn/simple/ --trusted-host pypi.tuna.tsinghua.edu.cn
 ```
 
-股票数据细节获取代码参考 [get_stock_data.py]()
+股票数据细节获取代码参考 [get_stock_data_details.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_stock_data_details.py)
 
-```python
->> python get_stock_data.py
+```bash
+>> python get_stock_data_details.py
 ```
 
-北向沪股通深股通每天涨幅榜top10获取代码参考 [bx_day_rise_top10.py]()
+北向每天涨幅榜top10获取代码参考 [bx_day_rise_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_day_rise_top10.py)
 
-```python
+```bash
 >> python bx_day_rise_top10.py
 ```
 
-北向沪股通深股通每天买卖成交量top10获取代码参考 [bx_day_volume_top10.py]()
+北向每天买卖成交量top10获取代码参考 [bx_day_volume_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_day_volume_top10.py)
 
-```python
+```bash
 >> python bx_day_volume_top10.py
 ```
 
-北向沪股通深股通北向历史成交量top10获取代码参考 [bx_history_volumn_top10.py]()
+北向历史成交量top10获取代码参考 [bx_history_volumn_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_history_volumn_top10.py)
 
-```python
+```bash
 >> python bx_history_volumn_top10.py
+```
+
+北向买卖时间获取代码参考 [get_bx_behavior_date.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_bx_behavior_date.py)
+
+```
+>> python get_bx_behavior_date.py
+```
+
+获取单个股票数据 [git_single_stock_data.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/git_single_stock_data.py) 
+
+```
+>> python git_single_stock_data.py 
+```
+
+主力每天-板块资金流 [sector_fund_flow.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/sector_fund_flow.py)
+
+```
+>> python sector_fund_flow.py
 ```
 
