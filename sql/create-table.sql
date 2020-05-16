@@ -42,7 +42,7 @@ dt2 date comment 'date format yyyy-MM-dd',
 dt string comment 'date format yyyyMMdd',
 weekday string comment '周几'
 ) comment '北向每天成交量榜-沪股通和深股通Top10'
-partitioned by (yearmonth string comment '分区年月 format yyyyMMdd')
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by '\t'
 stored as textfile;
@@ -78,3 +78,39 @@ row format delimited
 fields terminated by ','
 stored as textfile
 tblproperties("skip.header.line.count"="1");
+
+-- 导入数据
+-- load data local inpath '/home/liushuai/stock-data/details/2020-01' overwrite into table stock_details partition (yearmonth=202001);
+-- load data local inpath '/home/liushuai/stock-data/details/2020-02'  into table stock_details partition (yearmonth=202002);
+
+-- 北向历史时间
+create table if not exists bx_action_date(
+dt string comment 'date format yyyyMMdd'
+)comment '北向买卖A股的时间';
+
+
+-- 主力每天板块资金流
+--序号	板块名称	涨跌幅	主力净流入净额	主力净流入净占比	超大单净流入净额	超大单净流入净占比	大单净流入净额	大单净流入净占比	中单净流入净额	中单净流入净占比	小单净流入净额	小单净流入净占比	主力净流入最大股	date
+--1		电子元件	1.19	18.61亿			1.79				27.49亿				2.65				-8.88亿			-0.86				-18.93亿		-1.83				3184.44万		0.03				兆易创新			20200515
+create table if not exists sector_fund_flow(
+xh int comment '序号',
+sector_name int comment '板块名称',
+zdf decimal(10, 2) comment '涨跌幅(%)',
+zljlrje string comment '主力净流入净额',
+zljlrjzb decimal(10, 2) comment '主力净流入净占比(%)',
+cddjlrje string comment '超大单净流入净额',
+cddjlrjzb decimal(10, 2) comment '超大单净流入净占比(%)',
+ddjlrje string comment '大单净流入净额',
+ddjlrjzb decimal(10, 2) comment '大单净流入净占比(%)',
+zdjlrje string comment '中单净流入净额',
+zdjlrjzb decimal(10, 2) comment '中单净流入净占比(%)',
+xdjlrje string comment '小单净流入净额',
+xdjlrjzb decimal(10, 2) comment '小单净流入净占比(%)',
+zljlrzdg string comment '主力净流入最大股',
+dt string comment 'date format yyyyMMdd',
+weekday string comment '星期几'
+) comment '主力每天板块资金流'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
+row format delimited
+fields terminated by '\t'
+stored as textfile;

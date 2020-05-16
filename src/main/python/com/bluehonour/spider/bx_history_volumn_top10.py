@@ -13,6 +13,7 @@ import sys
 import os
 sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
 from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
+from com.bluehonour.utils.date_to_weekday import date2weekday
 
 
 """
@@ -60,8 +61,9 @@ def get_stock_data(path):
             (content, date) = str(content_date).split()
             dt2 = date[1:-3] # yyyy-MM-dd
             dt = dt2.replace("-", "") # yyyyMMdd
-            what_day = date[-3:-1] #周一
-            print(dt2, dt, what_day)
+            # what_day = date[-3:-1] #周一
+            weekday = date2weekday(dt)
+            print(dt2, dt, weekday)
         else:
             jys = "深证"
 
@@ -92,7 +94,7 @@ def get_stock_data(path):
             column_list.append(jys)
             column_list.append(dt2)
             column_list.append(dt)
-            column_list.append(what_day)
+            column_list.append(weekday)
             if column_list.__len__() > 5:  # 除去非周末的节假日
                 row_list.append(column_list)
             column_list = []
@@ -112,7 +114,7 @@ def save_file(path):
     title_list.clear()
 
     # 保存数据并打印数据
-    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
+    with open(str(path), 'a', encoding='UTF-8') as f:  # a追加写入
         for i in row_list:
             row_result = ''
             for j in i:
@@ -187,11 +189,14 @@ if __name__ == '__main__':
         path = get_stock_data_path() + '/bx_history_volumn/' + yearmonth
         if not os.path.exists(path):
             os.makedirs(path)
-        file_path = path + '/bx_day_rise_top10'
+        file_path = path + '/bx_day_volumn_top10'
         get_interval_range_data(file_path, start_date, end_date)
         # get_latest_days_data(path, 30)
 
         # 输出北向时间
-        save_date(get_stock_data_path() + '/北向买卖A股时间')
+        date_path = get_stock_data_path() + '/bx_history_date/'
+        if not os.path.exists(date_path):
+            os.makedirs(date_path)
+        save_date(date_path + yearmonth )
     finally:
         driver.quit()

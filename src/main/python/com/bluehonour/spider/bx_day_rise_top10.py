@@ -10,6 +10,8 @@ import sys
 sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
 from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 from pathlib import Path
+from com.bluehonour.utils.date_to_weekday import date2weekday
+
 
 """
 北向沪股通深股通涨幅榜top10
@@ -40,13 +42,14 @@ def get_stock_data(jys, path):
     if jys.__eq__("深证"):
         input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mk_sdcjsj > #BK08041")))
         print(input.text)
+        print(type(input))
         input.click()
     html = driver.page_source
     soup = BeautifulSoup(html, 'lxml')
     date = soup.select_one("#inputDate").string
     dt2 = date # yyyy-MM-dd
     dt = date.replace("-", "") # yyyyMMdd
-    weekday = ''
+    weekday = date2weekday(dt)
 
     list = soup.find(class_='maincont').find(class_='tab1')
 
