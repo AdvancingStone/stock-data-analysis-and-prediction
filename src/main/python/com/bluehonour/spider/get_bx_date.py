@@ -54,11 +54,8 @@ if __name__ == '__main__':
                 data_list.append(today.strftime('%Y%m%d'))
                 # print(date is not None)
             today = today+last_one_day
-        path = get_stock_data_path() + "/stock-data"
-        print(path)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        # save_file("/home/xxx/stock-data/北向买卖A股时间")
+        path = get_stock_data_path()
+        save_file(path+"/北向买卖A股时间")
     finally:
         driver.quit()
 
