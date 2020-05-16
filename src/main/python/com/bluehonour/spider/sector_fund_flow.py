@@ -26,16 +26,16 @@ title_list = []
 row_list = []  # 行
 column_list = []  # 列
 
-driver = webdriver.Chrome()
-driver.set_window_position(0, 0)
-driver.set_window_size(1400, 900)
-driver.maximize_window()#让窗口最大化
+# driver = webdriver.Chrome()
+# driver.set_window_position(0, 0)
+# driver.set_window_size(1400, 900)
+# driver.maximize_window()#让窗口最大化
 
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
-# options = Options()
-# options.add_argument('--headless')
-# options.add_argument('--disable-gpu')
-# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 
 driver.get("http://data.eastmoney.com/zjlx/dpzjlx.html")
 WAIT = WebDriverWait(driver, 10)
