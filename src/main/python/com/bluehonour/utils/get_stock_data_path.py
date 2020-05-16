@@ -2,7 +2,7 @@
 import sys
 import os
 
-from com.bluehonour.utils.readConfig import ReadConfig
+from readConfig import *
 
 
 def get_stock_data_path():
