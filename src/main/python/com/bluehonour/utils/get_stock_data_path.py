@@ -1,9 +1,8 @@
 #!/usr/bin/python
-from com.bluehonour.utils.readConfig import ReadConfig
 import sys
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
+
+from com.bluehonour.utils.readConfig import ReadConfig
 
 
 def get_stock_data_path():

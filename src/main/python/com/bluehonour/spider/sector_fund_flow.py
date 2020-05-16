@@ -1,5 +1,6 @@
 #!/usr/bin/python
-
+from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
+from com.bluehonour.utils.date_to_weekday import date2weekday
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -13,10 +14,7 @@ import os
 #__file__获取执行文件相对路径，整行为取上一级的上一级目录
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(BASE_DIR)
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
-from com.bluehonour.utils.date_to_weekday import date2weekday
-print(os.path.abspath(__file__))
-print(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+
 
 """
 获取行业资金流信息
