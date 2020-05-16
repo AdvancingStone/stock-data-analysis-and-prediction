@@ -2,10 +2,10 @@
 import baostock as bs
 import os
 import sys
-import datetime
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
+from _datetime import datetime, timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))#__file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
+from utils import *
 
 
 def mkdir(directory):
@@ -15,11 +15,11 @@ def mkdir(directory):
 # 获取前1天或N天的日期，beforeOfDay=1：前1天；beforeOfDay=N：前N天
 def get_pre_date(beforeOfDay, current_date='nothing'):
     if current_date.__eq__("nothing"):
-        today = datetime.datetime.now()
+        today = datetime.now()
     else:
-        today = datetime.datetime.strptime(current_date, '%Y-%m-%d')
+        today = datetime.strptime(current_date, '%Y-%m-%d')
     # 计算偏移量
-    offset = datetime.timedelta(days=-beforeOfDay)
+    offset = timedelta(days=-beforeOfDay)
     # 获取想要的日期的时间
     re_date = (today + offset).strftime('%Y-%m-%d')
     return re_date
@@ -33,7 +33,7 @@ class Downloader(object):
         self._bs = bs
         bs.login()
         self.date_start = date_start
-        # self.date_end = datetime.datetime.now().strftime("%Y-%m-%d")
+        # self.date_end = datetime.now().strftime("%Y-%m-%d")
         self.date_end = date_end
         self.output_dir = output_dir
         self.fields = "date,code,open,high,low,close,volume,amount," \
@@ -64,8 +64,8 @@ class Downloader(object):
 if __name__ == '__main__':
     # 获取前30天的股票数据
     # start_date = get_pre_date(10)
-    # end_date = datetime.datetime.today().strftime('%Y-%m-%d')
-    # while is_holiday(datetime.datetime.strptime(end_date,'%Y-%m-%d')):
+    # end_date = datetime.today().strftime('%Y-%m-%d')
+    # while is_holiday(datetime.strptime(end_date,'%Y-%m-%d')):
     #     end_date = get_pre_date(1, end_date)
     #     print(end_date)
 

@@ -1,6 +1,4 @@
 #!/usr/bin/python
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
-from com.bluehonour.utils.date_to_weekday import date2weekday
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -9,13 +7,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from chinese_calendar import is_workday, is_holiday
-import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import sys
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))#__file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
-
+from utils import *
 
 
 """
@@ -135,7 +133,7 @@ def get_latest_days_data(path, date_interval_days=30):
     :return:
     """
     today = datetime.date.today()
-    pre_one_day = datetime.timedelta(days=1)
+    pre_one_day = timedelta(days=1)
     for i in range(0, date_interval_days):
         if is_workday(today):
             # http://data.eastmoney.com/hsgt/top10/2020-04-08.html
@@ -156,9 +154,9 @@ def get_interval_range_data(path, start_date, end_date):
     :param start_date: 开始时间
     :param end_date: 结束时间
     """
-    last_one_day = datetime.timedelta(days=1)
-    today = datetime.datetime.strptime(start_date,'%Y%m%d').date()
-    end_date = datetime.datetime.strptime(end_date,'%Y%m%d').date()
+    last_one_day = timedelta(days=1)
+    today = datetime.strptime(start_date,'%Y%m%d').date()
+    end_date = datetime.strptime(end_date,'%Y%m%d').date()
 
     while end_date >= today:
         print(today)

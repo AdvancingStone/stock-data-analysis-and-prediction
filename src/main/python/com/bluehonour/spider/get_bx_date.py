@@ -1,5 +1,4 @@
 #!/usr/bin/python
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
@@ -7,12 +6,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from chinese_calendar import is_workday
-import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import sys
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
+from utils import *
+
 
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
 options = Options()
@@ -38,9 +39,9 @@ if __name__ == '__main__':
     try:
         start_date = '20200101'
         end_date = '20200111'
-        last_one_day = datetime.timedelta(days=1)
-        today = datetime.datetime.strptime(start_date,'%Y%m%d').date()
-        end_date = datetime.datetime.strptime(end_date,'%Y%m%d').date()
+        last_one_day = timedelta(days=1)
+        today = datetime.strptime(start_date,'%Y%m%d').date()
+        end_date = datetime.strptime(end_date,'%Y%m%d').date()
         current_url = 'http://data.eastmoney.com/hsgt/top10.html'
         while today <= end_date:
             if is_workday(today):

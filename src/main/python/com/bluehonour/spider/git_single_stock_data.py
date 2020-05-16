@@ -2,9 +2,10 @@ import baostock as bs
 import pandas as pd
 import sys
 import os
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
+from utils import *
+
 
 # 登陆系统
 lg = bs.login()

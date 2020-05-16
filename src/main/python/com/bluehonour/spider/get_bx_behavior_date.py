@@ -7,13 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from chinese_calendar import is_workday, is_holiday
-import datetime
+from _datetime import datetime, timedelta
 from pathlib import Path
 import sys
 import os
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
+from utils import *
+
 
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
 options = Options()
@@ -63,9 +64,9 @@ def get_interval_range_data(start_date, end_date):
     :param start_date: 开始时间
     :param end_date: 结束时间
     """
-    pre_one_day = datetime.timedelta(days=1)
-    start_date = datetime.datetime.strptime(start_date,'%Y%m%d').date()
-    today = datetime.datetime.strptime(end_date,'%Y%m%d').date()
+    pre_one_day = timedelta(days=1)
+    start_date = datetime.strptime(start_date,'%Y%m%d').date()
+    today = datetime.strptime(end_date,'%Y%m%d').date()
 
     while today >= start_date:
         # print(today)
