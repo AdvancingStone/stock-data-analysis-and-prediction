@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 import sys
 import os
-sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
+#__file__获取执行文件相对路径，整行为取上一级的上一级目录
+BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 from pathlib import Path
 from com.bluehonour.utils.date_to_weekday import date2weekday
