@@ -1,4 +1,6 @@
 #!/usr/bin/python
+from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
+from com.bluehonour.utils.date_to_weekday import date2weekday
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -11,11 +13,9 @@ import datetime
 from pathlib import Path
 import sys
 import os
-#__file__获取执行文件相对路径，整行为取上一级的上一级目录
-BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))#__file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
-from com.bluehonour.utils.date_to_weekday import date2weekday
+
 
 
 """
@@ -49,9 +49,8 @@ driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # �
 current_url = "http://data.eastmoney.com/hsgt/top10.html"
 WAIT = WebDriverWait(driver, 10)
 
+
 def get_stock_data(path):
-
-
     for index in range(0, 2):
         page_load_complete = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".titbar > .tit")))
         print("页面加载完成")
@@ -103,6 +102,7 @@ def get_stock_data(path):
         if row_list:  # row_list是否含有元素
             save_file(path)
             row_list.clear()
+
 
 def save_file(path):
     path = Path(path)
@@ -171,6 +171,7 @@ def get_interval_range_data(path, start_date, end_date):
             get_stock_data(path)
         today = today + last_one_day
 
+
 def save_date(path):
     path = Path(path)
     # 保存数据并打印数据
@@ -199,6 +200,6 @@ if __name__ == '__main__':
         date_path = get_stock_data_path() + '/bx_history_date/'
         if not os.path.exists(date_path):
             os.makedirs(date_path)
-        save_date(date_path + yearmonth )
+        save_date(date_path + yearmonth)
     finally:
         driver.quit()

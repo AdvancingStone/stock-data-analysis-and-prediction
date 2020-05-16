@@ -1,4 +1,6 @@
 #!/usr/bin/python
+from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
+from com.bluehonour.utils.date_to_weekday import date2weekday
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -7,12 +9,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 import sys,os
+from pathlib import Path
 #__file__获取执行文件相对路径，整行为取上一级的上一级目录
 BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
-from pathlib import Path
-from com.bluehonour.utils.date_to_weekday import date2weekday
+
 
 
 """
@@ -39,6 +40,7 @@ options.add_argument('--disable-gpu')
 driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 driver.get("http://data.eastmoney.com/hsgt/index.html")
 WAIT = WebDriverWait(driver, 10)
+
 
 def get_stock_data(jys, path):
     if jys.__eq__("深证"):

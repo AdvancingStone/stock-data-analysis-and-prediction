@@ -1,8 +1,10 @@
 #!/usr/bin/python
-import sys
-sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
 from com.bluehonour.utils.readConfig import ReadConfig
+import sys
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+
 
 def get_stock_data_path():
     config = ReadConfig()

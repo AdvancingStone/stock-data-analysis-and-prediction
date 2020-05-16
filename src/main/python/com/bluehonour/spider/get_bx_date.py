@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from com.bluehonour.utils.get_stock_data_path import get_stock_data_path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
@@ -9,8 +10,9 @@ from chinese_calendar import is_workday
 import datetime
 from pathlib import Path
 import sys
-sys.path.append("/home/liushuai/git_project/stock_data_analysis_prediction/stock-data-analysis-and-prediction/src/main/python/")
-
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
 options = Options()
@@ -52,7 +54,11 @@ if __name__ == '__main__':
                 data_list.append(today.strftime('%Y%m%d'))
                 # print(date is not None)
             today = today+last_one_day
-        save_file("/home/xxx/stock-data/北向买卖A股时间")
+        path = get_stock_data_path() + "/stock-data"
+        print(path)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        # save_file("/home/xxx/stock-data/北向买卖A股时间")
     finally:
         driver.quit()
 
