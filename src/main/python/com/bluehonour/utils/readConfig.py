@@ -25,8 +25,7 @@ class ReadConfig:
     def find_path(self, file):
         o_path = os.getcwd()
         separator = self.get_separator()
-        str = o_path
-        str = str.split(separator)
+        str = o_path.split(separator)
         while len(str) > 0:
             spath = separator.join(str)+separator+file
             leng = len(str)

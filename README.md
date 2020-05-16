@@ -68,6 +68,18 @@ pip install -r requirements.txt
 
 
 
+### 修改数据存放路径
+
+```
+修改根目录下的config.ini
+存放股票有关数据的地方
+
+[stock]
+path=/home/xxx/stock-data
+```
+
+
+
 ### 股票数据获取
 
 股票证券数据集来自于 [baostock](http://baostock.com/baostock/index.php/%E9%A6%96%E9%A1%B5)，一个免费、开源的证券数据平台，提供 Python API。
@@ -75,6 +87,8 @@ pip install -r requirements.txt
 ```bash
 >> pip install baostock -i https://pypi.tuna.tsinghua.edu.cn/simple/ --trusted-host pypi.tuna.tsinghua.edu.cn
 ```
+
+
 
 股票数据细节获取代码参考 [get_stock_data_details.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_stock_data_details.py)
 
@@ -112,7 +126,7 @@ pip install -r requirements.txt
 >> python git_single_stock_data.py 
 ```
 
-主力每天-板块资金流 [sector_fund_flow.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/sector_fund_flow.py)
+主力每天的板块资金流 [sector_fund_flow.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/sector_fund_flow.py)
 
 ```
 >> python sector_fund_flow.py
