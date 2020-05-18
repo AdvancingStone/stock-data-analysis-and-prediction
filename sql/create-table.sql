@@ -124,7 +124,8 @@ is_trading_day char(1) comment '是否是交易日(1：交易日，0：非交易
 ) comment '交易日信息，判断每个自然日是不是交易日'
 row format delimited
 fields terminated by ','
-stored as textfile;
+stored as textfile
+tblproperties("skip.header.line.count"="1");
 
 --获取股票基本信息，包括证券代码，证券名称，交易状态
 create table if not exists stock.stock_basic_info(
@@ -132,6 +133,8 @@ code string comment '证券代码（sh.000001）',
 tradeStatus char(1) comment '交易状态(1：正常交易 0：停牌）',
 code_name string comment '证券名称（上证综合指数）'
 ) comment '股票基本信息'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by ','
-stored as textfile;
+stored as textfile
+tblproperties("skip.header.line.count"="1");

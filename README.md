@@ -90,10 +90,10 @@ path=/home/xxx/stock-data
 
 
 
-股票数据细节获取代码参考 [get_stock_data_details.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_stock_data_details.py)
+股票数据细节获取代码参考 [get_stock_data_details.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/baostock/get_all_stock_data_details.py)
 
 ```bash
->> python get_stock_data_details.py
+>> python get_all_stock_data_details.py
 ```
 
 北向每天涨幅榜top10获取代码参考 [bx_day_rise_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_day_rise_top10.py)
@@ -108,10 +108,10 @@ path=/home/xxx/stock-data
 >> python bx_day_volume_top10.py
 ```
 
-北向历史成交量top10获取代码参考 [bx_history_volumn_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_history_volumn_top10.py)
+北向历史成交量top10获取代码参考 [bx_history_volumn_top10.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/bx_history_volume_top10.py)
 
 ```bash
->> python bx_history_volumn_top10.py
+>> python bx_history_volume_top10.py
 ```
 
 北向买卖时间获取代码参考 [get_bx_behavior_date.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/get_bx_behavior_date.py)
@@ -130,6 +130,18 @@ path=/home/xxx/stock-data
 
 ```bash
 >> python sector_fund_flow.py
+```
+
+获取股票基本信息(股票代码、股票名称、交易状态) [query_stock_basic_info.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/baostock/query_stock_basic_info.py)
+
+```bash
+>> python query_stock_basic_info.py
+```
+
+获取股票交易日信息  [query_trade_dates.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/baostock/query_trade_dates.py) 
+
+```bash
+>> python query_trade_dates.py
 ```
 
 
