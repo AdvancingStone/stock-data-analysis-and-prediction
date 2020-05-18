@@ -35,7 +35,7 @@ while (rs.error_code == '0') & rs.next():
 result = pd.DataFrame(data_list, columns=rs.fields)
 
 # 结果集输出到csv文件
-path = get_stock_data_path()
+path = get_stock_data_path() + "/single_stock/"
 if not os.path.exists(path):
     os.makedirs(path)
 filename = path + "/" + stock_code + "-" + start_date.replace("-", "") + "-" + end_date.replace("-", "") + ".csv"

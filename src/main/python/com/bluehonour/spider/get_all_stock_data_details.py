@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     print(start_date, end_date, yearmonth)
     # date_end必须是一个工作日，否则出现意想不到的结果
-    path = get_stock_data_path() + '/details/' + yearmonth
+    path = get_stock_data_path() + '/all_stock_data_details/' + yearmonth
     mkdir(path)
     # print(path)
     downloader = Downloader(path, date_start=start_date, date_end=end_date)

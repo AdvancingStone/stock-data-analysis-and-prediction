@@ -80,17 +80,100 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_2.11</artifactId>
             <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_2.11</artifactId>
             <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients_2.11</artifactId>
             <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka-0.10_2.11</artifactId>
+            <version>${flink-version}</version>
+        </dependency>
+        <!--If you want to implement a custom format for interacting with Kafka or a set of user-defined functions,
+        the following dependency is sufficient and can be used for JAR files for the SQL Client:-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-common</artifactId>
+            <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <!--Table Program Dependencies-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-scala-bridge_2.11</artifactId>
+            <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <!--Table Program Dependencies-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_2.11</artifactId>
+            <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <!--Additionally, if you want to run the Table API & SQL programs locally within your IDE,
+        you must add one of the following set of modules, depending which planner you want to use:-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_2.11</artifactId>
+            <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <!--Flink 的 Hive connector-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-hive_2.11</artifactId>
+            <version>${flink-version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <!-- Hadoop Dependencies -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-hadoop-compatibility_2.11</artifactId>
+            <version>${flink-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-orc_2.11</artifactId>
+            <version>${flink-version}</version>
+        </dependency>
+        <!-- Hive 1.2.1 is built with Hadoop 2.6.0. We pick 2.6.5 which flink-shaded-hadoop
+        is pre-built with, but users can pick their own hadoop version,
+        as long as it's compatible with Hadoop 2.6.0 -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-shaded-hadoop-2-uber</artifactId>
+            <version>2.6.5-8.0</version>
+        </dependency>
+        <!-- Hive Metastore -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
+            <version>${hive-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-metastore</artifactId>
+            <version>${hive-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libfb303</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>

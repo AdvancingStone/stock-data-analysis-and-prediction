@@ -51,6 +51,7 @@ def save_file(path):
 
     # 保存数据并打印数据
     with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
+        date_list.reverse()
         for i in date_list:
             f.write(i.strip() + '\n')
             print(i)
@@ -78,8 +79,17 @@ def get_interval_range_data(start_date, end_date):
 
 if __name__ == '__main__':
     try:
-        path = get_stock_data_path() + '/bx_behavior_date'
-        get_interval_range_data('20180101', '20200531')
-        save_file(path)
+        print("请输入起始日期和结束日期，格式  yyyyMMdd")
+        start_date = input("起始日期: ")
+        end_date = input("结束日期: ")
+        path = get_stock_data_path() + '/bx_behavior_date/'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        date_file = path+start_date+'-'+end_date
+        if not os.path.exists(date_file):
+            get_interval_range_data(start_date, end_date)
+            save_file(date_file)
+        else:
+            print(start_date+','+end_date+" 北向日期已经存在")
     finally:
         driver.quit()

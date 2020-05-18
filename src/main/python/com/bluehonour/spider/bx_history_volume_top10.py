@@ -188,18 +188,23 @@ if __name__ == '__main__':
         start_date = input("起始日期: ")
         end_date = input("结束日期: ")
         yearmonth = start_date[:6]
-        path = get_stock_data_path() + '/bx_history_volumn/' + yearmonth
-        if os.path.exists(path):
-            shutil.rmtree(path=path)
-        os.mkdir(path)
-        file_path = path + '/bx_day_volumn_top10'
-        get_interval_range_data(file_path, start_date, end_date)
+        path = get_stock_data_path() + '/bx_history_volume/'
+        if not os.path.exists(path):
+            # shutil.rmtree(path=path)
+            os.makedirs(path)
+        file_path = path + start_date + "-" + end_date
+        if not os.path.exists(file_path):
+            get_interval_range_data(file_path, start_date, end_date)
         # get_latest_days_data(path, 30)
 
         # 输出北向时间
         date_path = get_stock_data_path() + '/bx_history_date/'
         if not os.path.exists(date_path):
             os.makedirs(date_path)
-        save_date(date_path + yearmonth)
+        date_path = date_path + start_date + "-" + end_date
+        if not os.path.exists(date_path):
+            save_date(date_path)
+        else:
+            print(start_date+'-'+end_date+' 北向的历史数据已存在')
     finally:
         driver.quit()
