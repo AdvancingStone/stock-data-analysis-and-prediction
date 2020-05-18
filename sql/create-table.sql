@@ -94,7 +94,7 @@ dt string comment 'date format yyyyMMdd'
 --1		电子元件	1.19	18.61亿			1.79				27.49亿				2.65				-8.88亿			-0.86				-18.93亿		-1.83				3184.44万		0.03				兆易创新			20200515
 create table if not exists sector_fund_flow(
 xh int comment '序号',
-sector_name int comment '板块名称',
+sector_name string comment '板块名称',
 zdf decimal(10, 2) comment '涨跌幅(%)',
 zljlrje string comment '主力净流入净额',
 zljlrjzb decimal(10, 2) comment '主力净流入净占比(%)',

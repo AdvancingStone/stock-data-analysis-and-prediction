@@ -2,6 +2,7 @@
 import baostock as bs
 import os
 import sys
+import shutil
 from _datetime import datetime, timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))#__file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
@@ -9,8 +10,9 @@ from utils import *
 
 
 def mkdir(directory):
-    if not os.path.exists(directory):
-            os.makedirs(directory)
+    if os.path.exists(directory):
+        shutil.rmtree(directory)
+    os.makedirs(directory)
 
 # 获取前1天或N天的日期，beforeOfDay=1：前1天；beforeOfDay=N：前N天
 def get_pre_date(beforeOfDay, current_date='nothing'):
