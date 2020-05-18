@@ -2,7 +2,7 @@
 -- 序号	代码	名称		最新价	涨跌幅	成交额	换手率	市盈率	总市值		交易所	dt2			dt		weekday
 -- 1	002156	通富微电	24.71	10.02	32.76亿	11.67	1489.34	285.08亿	深证	2020-04-17	20200417
 
-create table if not exists bx_day_rise_top10(
+create table if not exists stock.bx_day_rise_top10(
 xh int comment '序号',
 code int comment '代码',
 name string comment '名称',
@@ -27,7 +27,7 @@ stored as textfile;
 -- 排名	代码	股票简称	收盘价		涨跌幅		深股通净买额	深股通买入金额	深股通卖出金额	深股通成交金额	交易所			dt2			dt		weekday
 -- 1	600519	贵州茅台	1226.00		2.41		7507.36万		8.02亿			7.26亿			15.28亿			上证			2020-04-17	20200417
 
-create table if not exists bx_day_volumn_top10(
+create table if not exists stock.bx_day_volumn_top10(
 xh int comment '序号',
 code int comment '代码',
 name string comment '名称',
@@ -53,7 +53,7 @@ stored as textfile;
 --2018-01-02,	sz.000837,	6.1600,		6.2100,		6.1200,		6.2000,	3858021,	23835303.9600,	3,			0.662189,	1,				1.307188,	88.561479,	1.523950,	1.428011,	-747.210356,	0
 --2020-04-21, sz.000837,	3.9900,		4.0100,		3.9000,		3.9100,	5277402,	20749013.8200,	3,			0.761400,	1,				-2.005000,	-9.111043,	1.062674,	0.856588,	-275.187176,	0
 
-create table if not exists stock_details(
+create table if not exists stock.stock_details(
 dt date comment '交易所行情日期 (格式：YYYY-MM-DD)',
 code string comment '证券代码 (格式：sh.600000。sh：上海，sz：深圳)',
 open decimal(20, 4) comment '今开盘价格 (精度：小数点后4位；单位：人民币元)',
@@ -92,7 +92,7 @@ dt string comment 'date format yyyyMMdd'
 -- 主力每天板块资金流
 --序号	板块名称	涨跌幅	主力净流入净额	主力净流入净占比	超大单净流入净额	超大单净流入净占比	大单净流入净额	大单净流入净占比	中单净流入净额	中单净流入净占比	小单净流入净额	小单净流入净占比	主力净流入最大股	date
 --1		电子元件	1.19	18.61亿			1.79				27.49亿				2.65				-8.88亿			-0.86				-18.93亿		-1.83				3184.44万		0.03				兆易创新			20200515
-create table if not exists sector_fund_flow(
+create table if not exists stock.sector_fund_flow(
 xh int comment '序号',
 sector_name string comment '板块名称',
 zdf decimal(10, 2) comment '涨跌幅(%)',
@@ -113,4 +113,25 @@ weekday string comment '星期几'
 partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by '\t'
+stored as textfile;
+
+-- 交易日查询，判断每个自然日是不是交易日(1表示交易日，0表示非交易日)
+-- calendar_date,is_trading_day
+-- 2020-05-01,0
+create table if not exists stock.trade_dates(
+calendar_date date comment '自然日',
+is_trading_day char(1) comment '是否是交易日(1：交易日，0：非交易日)'
+) comment '交易日信息，判断每个自然日是不是交易日'
+row format delimited
+fields terminated by ','
+stored as textfile;
+
+--获取股票基本信息，包括证券代码，证券名称，交易状态
+create table if not exists stock.stock_basic_info(
+code string comment '证券代码（sh.000001）',
+tradeStatus char(1) comment '交易状态(1：正常交易 0：停牌）',
+code_name string comment '证券名称（上证综合指数）'
+) comment '股票基本信息'
+row format delimited
+fields terminated by ','
 stored as textfile;
