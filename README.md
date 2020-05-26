@@ -1,4 +1,5 @@
 # stock-data-analysis-and-prediction
+
 根据北向和主力资金的行为分析和预测后市股票的涨跌
 
 
@@ -27,7 +28,7 @@
 | isST        | 是否ST           | 1是，0否                 |
 
 
-## 🕵️‍♀️ 模拟实验
+## 🕵️‍♀️ 准备
 
 #### 下载浏览器驱动
 
@@ -38,7 +39,9 @@
 | Firefox | https://github.com/mozilla/geckodriver/releases              |
 | Safari  | https://webkit.org/blog/6900/webdriver-support-in-safari-10/ |
 
-```sh
+#### 配置浏览器驱动
+
+```bash
 # 安装Firefox浏览器驱动，参考
 wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
 # 下载完之后解压到某个文件夹下
@@ -52,11 +55,9 @@ PATH=$PATH:$DRIVER_HOME
 source /etc/profile
 ```
 
+#### 环境安装
 
-
-### 环境安装
-
-```sh
+```bash
 # 虚拟环境
 virtualenv -p python3.7 venv
 source ./venv/bin/activate
@@ -66,9 +67,7 @@ pip install -r requirements.txt
 # deactivate 
 ```
 
-
-
-### 修改数据存放路径
+#### 修改数据存放路径
 
 ```
 修改根目录下的config.ini
@@ -146,10 +145,12 @@ path=/home/xxx/stock-data
 
 
 
-### hive sql 表的创建
+### hive sql 表的创建 
+
+执行根目录下 [create-table.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/create-table.sql)
 
 ```
-执行根目录下 sql/create-table.sql
+根目录下 sql/create-table.sql 
 ```
 
 
@@ -157,8 +158,9 @@ path=/home/xxx/stock-data
 ### 导入数据
 
 ```hive
-# 用法 local从本地导入， overwrite是否覆盖，partition分区导入
+# 用法 local从本地导入，无local代表从hdfs导入；overwrite是否覆盖；partition分区导入
 load data [local] inpath filepath [overwrite] into table tablename [partition (a1=a2,b1=b2,...)]
+
 # 从本地导入
 load data local inpath '/home/xxx/stock-data/details/2020-01' overwrite into table stock_details partition (yearmonth=202001);
 # 从hdfs导入

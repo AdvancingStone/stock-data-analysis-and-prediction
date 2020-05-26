@@ -87,7 +87,11 @@ def get_sector_fund_flow_data(path):
     path = path+"/"+yearmonth
     if not os.path.exists(path):
         os.makedirs(path)
-    save_file(path+"/"+date)
+    filename = path+"/"+date
+    if os.path.exists(filename):
+        print(filename+" 文件已存在...")
+    else:
+        save_file(filename)
     row_list.clear()
 
 
