@@ -171,8 +171,8 @@ load data inpath '/home/xxx/stock-data/details/2020-01' overwrite into table sto
 
 ### 股票数据分析
 
-- [北向每月流入涨幅榜单汇总.sql]([https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%B6%A8%E5%B9%85%E6%A6%9C%E5%8D%95%E6%B1%87%E6%80%BB.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/北向每月流入涨幅榜单汇总.sql))
-- [北向每月流入成交量榜单汇总.sql]([https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%88%90%E4%BA%A4%E9%87%8F%E6%A6%9C%E5%8D%95%E6%B1%87%E6%80%BB.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/北向每月流入成交量榜单汇总.sql))
-- [北向每月流入成交量股票明细.sql]([https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%88%90%E4%BA%A4%E9%87%8F%E8%82%A1%E7%A5%A8%E6%98%8E%E7%BB%86.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/北向每月流入成交量股票明细.sql))
+- [北向每月流入涨幅榜单汇总.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%B6%A8%E5%B9%85%E6%A6%9C%E5%8D%95%E6%B1%87%E6%80%BB.sql)
+- [北向每月流入成交量榜单汇总.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%88%90%E4%BA%A4%E9%87%8F%E6%A6%9C%E5%8D%95%E6%B1%87%E6%80%BB.sql)
+- [北向每月流入成交量股票明细.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/%E5%8C%97%E5%90%91%E6%AF%8F%E6%9C%88%E6%B5%81%E5%85%A5%E6%88%90%E4%BA%A4%E9%87%8F%E8%82%A1%E7%A5%A8%E6%98%8E%E7%BB%86.sql)
 
 ​	
