@@ -1,18 +1,18 @@
 #!/usr/bin/python
+import os
+import sys
+
+from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
-import sys, os
-from pathlib import Path
-#__file__获取执行文件相对路径，整行为取上一级的上一级目录
-BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
-from utils import *
 
+# __file__获取执行文件相对路径，整行为取上一级的上一级目录
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+from utils import Utils
 
 """
 北向沪股通深股通涨幅榜top10
@@ -23,10 +23,6 @@ title_list = []
 # 创建一个存放股票数据的二维列表
 row_list = []  # 行
 column_list = []  # 列
-# 获取当前日期和时间
-# now_time = datetime.datetime.now()
-# dt2 = now_time.strftime('%Y-%m-%d')  # yyyy-MM-dd
-# dt = now_time.strftime('%Y%m%d')  # yyyyMMdd
 
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
 options = Options()
@@ -40,81 +36,75 @@ driver.get("http://data.eastmoney.com/hsgt/index.html")
 WAIT = WebDriverWait(driver, 10)
 
 
-def get_stock_data(jys, path):
-    if jys.__eq__("深证"):
-        input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mk_sdcjsj > #BK08041")))
-        input.click()
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'lxml')
-    date = soup.select_one("#inputDate").string
-    dt2 = date # yyyy-MM-dd
-    dt = date.replace("-", "") # yyyyMMdd
-    weekday = date2weekday(dt)
+class BxDayRiseTop10:
+    def get_stock_data(self, jys, path):
+        """
+        获取上证和深证交易所的北向买入涨幅前10的股票数据
+        :param jys: 交易所
+        :param path: 路径
+        :return: 股票数据的绝对路径地址
+        """
+        if jys.__eq__("深证"):
+            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mk_sdcjsj > #BK08041")))
+            input.click()
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'lxml')
+        date = soup.select_one("#inputDate").string
+        dt2 = date  # yyyy-MM-dd
+        dt = date.replace("-", "")  # yyyyMMdd
+        weekday = Utils.Utils.date2weekday(dt)
 
-    list = soup.find(class_='maincont').find(class_='tab1')
+        list = soup.find(class_='maincont').find(class_='tab1')
 
-    title_items = list.find(class_='h101').find_all('th')   #获取标题
-    for item in title_items:
-        if item.string!='相关':
-            title_list.append(item.string)
-    title_list.append('交易所')
-    title_list.append("dt2")
-    title_list.append("dt")
-    title_list.append("weekday")
+        if jys.__eq__("深证"):
+            title_items = list.find(class_='h101').find_all('th')  # 获取标题
+            for item in title_items:
+                if item.string != '相关':
+                    title_list.append(item.string)
+            title_list.append('交易所')
+            title_list.append("dt2")
+            title_list.append("dt")
+            title_list.append("weekday")
 
-    for i in title_list:
-        print(i, end='\t')
-    print()
-    title_list.clear()
+        global column_list
+        content_items = list.select("tbody > tr")
+        for tr_item in content_items:
+            td_items = tr_item.select("td")
+            for td_item in td_items:
+                if td_item.string is not None:
+                    column_list.append(td_item.string)
+            column_list.append(jys)
+            column_list.append(dt2)
+            column_list.append(dt)
+            column_list.append(weekday)
 
-    global column_list
-    content_items = list.select("tbody > tr")
-    for tr_item in content_items:
-        td_items = tr_item.select("td")
-        for td_item in td_items:
-            if td_item.string is not None:
-                column_list.append(td_item.string)
-        column_list.append(jys)
-        column_list.append(dt2)
-        column_list.append(dt)
-        column_list.append(weekday)
+            row_list.append(column_list)
+            column_list = []
 
-        row_list.append(column_list)
-        column_list = []
+        absolute_path = path + "/" + dt[:-2] + "/"
+        if not os.path.isdir(absolute_path):
+            os.makedirs(absolute_path)
+        return absolute_path + dt
 
-    path = path+"/"+dt[:-2]+"/"
-    if not os.path.isdir(path):
-        os.makedirs(path)
-        print(path+"创建成功")
-    return path + dt
-    # save_file(path + dt)
-    # row_list.clear()
-
-
-def save_file(path):
-    path = Path(path)
-    # if path.exists():
-    #     os.remove(path)
-    print('开始写入数据 ====> ')
-    with open(str(path), 'w', encoding='UTF-8') as f:  # a追加写入
-        for i in row_list:
-            row_result = ''
-            for j in i:
-                result = j.replace("%", '')
-                row_result += ('\t' + result)
-            f.write(row_result.lstrip() + '\n')
-            print(row_result.lstrip())
-        f.close()
+    def get_bx_day_rise_top10(self):
+        try:
+            path = Utils.Utils.get_stock_data_path() + '/bx_day_rise_top10'
+            self.get_stock_data("上证", path)
+            file_name = self.get_stock_data("深证", path)
+            Utils.Utils.print_title(title_list)
+            Utils.Utils.save_file(file_name, row_list, 'w')
+        finally:
+            driver.quit()
 
 
 if __name__ == '__main__':
 
     try:
-        path = get_stock_data_path() + '/bx_day_rise_top10/'
-        get_stock_data("上证", path)
-        path = get_stock_data("深证", path)
-        print(path)
-        save_file(path)
-
+        path = Utils.Utils.get_stock_data_path() + '/bx_day_rise_top10'
+        data = BxDayRiseTop10()
+        data.get_stock_data("上证", path)
+        file_name = data.get_stock_data("深证", path)
+        Utils.Utils.print_title(title_list)
+        Utils.Utils.save_file(file_name, row_list, 'w')
     finally:
         driver.quit()
