@@ -101,7 +101,7 @@ class BxDayVolumeTop10:
 if __name__ == '__main__':
     try:
         path = Utils.Utils.get_stock_data_path() + '/bx_day_volume_top10'
-        data = BxDayVolumnTop10()
+        data = BxDayVolumeTop10()
         data.get_stock_data("上证", path)
         path = data.get_stock_data("深证", path)
         Utils.Utils.print_title(title_list)
