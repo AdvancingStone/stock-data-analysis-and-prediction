@@ -6,6 +6,8 @@
 
 ### 股票具体细节
 
+> 其他股票说明参考 [sql/create-table.sql](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/sql/create-table.sql)
+
 | 参数名称    | 参数描述         | 说明                                |
 | ----------- | ---------------- | ----------------------------------- |
 | date        | 交易所行情日期   | 格式：YYYY-MM-DD                    |
@@ -149,6 +151,12 @@ path=/home/xxx/stock-data
 >> python dragon_tiger_list.py
 ```
 
+获取历史龙虎榜信息 [history_dragon_tiger_list.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/history_dragon_tiger_list.py)
+
+```bash
+python history_dragon_tiger_list.py
+```
+
 
 
 ### hive sql 表的创建 
@@ -161,7 +169,7 @@ path=/home/xxx/stock-data
 
 
 
-### 导入数据
+### 导入Hive
 
 ```bash
 # 用法 local从本地导入，无local代表从hdfs导入；overwrite是否覆盖；partition分区导入
