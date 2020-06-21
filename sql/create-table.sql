@@ -139,7 +139,7 @@ fields terminated by ','
 stored as textfile
 tblproperties("skip.header.line.count"="1");
 
---龙虎榜
+--每日龙虎榜
 --序号	代码	名称	解读						收盘价	涨跌幅	龙虎榜净买额(万)	龙虎榜买入金额(万)	龙虎榜卖出金额(万)	龙虎榜成交金额(万)	市场总成交金额(万)	净买金额占总成交比	成交金额占总成交比	换手率	流通市值(亿)	上榜原因					dt			星期	
 --1		000011	深物业A	3家机构买入，成功率46.32	16.83	10.00	3433.90				9058.07				5624.17				14682.24			60453.50			5.68				24.29				7.29	89				日振幅值达到15的前五只证券	20200617	星期三
 
@@ -167,3 +167,48 @@ partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by '\t'
 stored as textfile;
+
+--历史龙虎榜
+--序号	代码	名称		上榜日		解读					收盘价	涨跌幅	龙虎榜净买额(万)	龙虎榜买入额(万)	龙虎榜卖出额(万)	龙虎榜成交额(万)	市场总成交额(万)	净买额占总成交比	成交额占总成交比	换手率	流通市值(亿)	上榜原因					上榜后1日	上榜后2日	上榜后5日	上榜后10日	星期	
+--1		000030	富奥股份	20200603	1家机构卖出成功率48.91	6.55	-3.53	-2002				5860				7862				13723				44596				-4.49				30.77				3.92	115				日振幅值达到15的前五只证券	-0.92		-9.16		-14.66		-12.92		星期三
+create table if not exists stock.history_dragon_tiger_list(
+xh int comment '序号',
+code int comment '代码',
+name string comment '名称',
+dt string comment '上榜日',
+jd string comment '解读',
+spj decimal(20, 4) comment '收盘价',
+zdf decimal(20, 4) comment '涨跌幅',
+jme decimal(20, 4) comment '龙虎榜净买额(万)',
+mrje decimal(20, 4) comment '龙虎榜买入金额(万)',
+mcje decimal(20, 4) comment '龙虎榜卖出金额(万)',
+cjje decimal(20, 4) comment '龙虎榜成交金额(万)',
+sczcjje decimal(20, 4) comment '市场总成交金额(万)',
+jmje_rate decimal(20, 4) comment '净买金额占总成交比',
+cjje_rate decimal(20, 4) comment '成交金额占总成交比',
+hsl decimal(20, 4) comment '换手率',
+ltsz decimal(20, 4) comment '流通市值(亿)',
+sbyy string comment '上榜原因',
+t1 decimal(20, 4) comment '上榜后1日涨跌幅',
+t2 decimal(20, 4) comment '上榜后2日涨跌幅',
+t5 decimal(20, 4) comment '上榜后5日涨跌幅',
+t10 decimal(20, 4) comment '上榜后10日涨跌幅',
+weekday string comment '星期几'
+)comment '历史龙虎榜'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
+row format delimited
+fields terminated by '\t'
+stored as textfile;
+
+
+
+
+
+
+
+
+
+
+
+
+
