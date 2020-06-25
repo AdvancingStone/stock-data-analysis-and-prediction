@@ -65,7 +65,9 @@ class DragonTigerList():
         html = self.driver.page_source
         soup = BeautifulSoup(html, 'lxml')
         date_elem = soup.select_one("#search_date_start")
-        dt = str(date_elem.attrs["value"]).replace('-', '')
+        year = str(date_elem.attrs["value"]).replace('-', '')[0:4]
+        date = str(soup.select_one("#divSjri > ul > li:nth-child(1)").text).strip()
+        dt = year+date[0:2]+date[3:5]
         weekday = Utils.Utils.date2weekday(dt)
         yearmonth = dt[:-2]
         path = path + "/" + yearmonth
