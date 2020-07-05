@@ -201,14 +201,6 @@ fields terminated by '\t'
 stored as textfile;
 
 
-	code as `股票代码`,
-	name as `股票名称`,
-	count(*) as `上榜次数`,
-	max(a.zdf) as `最大涨跌幅`,
-	min(a.zdf) as `最小涨跌幅`,
-	collect_set(dt) as `日期集`
-
-
 create table if not exists stock.top10(
 code string comment '',
 name string comment '',
