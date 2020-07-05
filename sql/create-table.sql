@@ -200,20 +200,25 @@ row format delimited
 fields terminated by '\t'
 stored as textfile;
 
-
-create table if not exists stock.top10(
-code string comment '',
-name string comment '',
-time int comment '',
-max_zdf decimal(20, 4) comment '',
-min_zdf decimal(20, 4) comment '',
+--北向成交量和涨幅榜top10汇总
+--增量，需要上月北向净买额数据（从2019年起开始计算）
+create table if not exists stock.bx_top10_smmary(
+code string comment '股票代码',
+name string comment '股票名称',
+history_jme decimal(20, 4) comment '北向历史净买额',
+month_jme decimal(20, 4) comment '北向本月净买额',
+time int comment '本月买卖次数',
+max_zdf decimal(20, 4) comment '最大涨跌幅',
+min_zdf decimal(20, 4) comment '最小涨跌幅',
+month_zdf decimal(20, 4) comment '本月涨跌幅',
 classify string comment '分类',
-date_set array<string> comment '日期集'
+date_set array<string>
+comment '日期集'
 )comment '北向成交量和涨幅榜top10汇总'
 partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by '\t'
-collection items terminate by ';';
+collection items terminated by ';'
 stored as textfile;
 
 
