@@ -79,9 +79,6 @@ fields terminated by ','
 stored as textfile
 tblproperties("skip.header.line.count"="1");
 
--- 导入数据
--- load data local inpath '/home/liushuai/stock-data/details/2020-01' overwrite into table stock_details partition (yearmonth=202001);
--- load data local inpath '/home/liushuai/stock-data/details/2020-02'  into table stock_details partition (yearmonth=202002);
 
 -- 北向历史时间
 create table if not exists bx_action_date(

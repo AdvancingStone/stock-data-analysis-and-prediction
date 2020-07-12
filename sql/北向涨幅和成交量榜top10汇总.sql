@@ -1,14 +1,16 @@
+set hivevar:yearmonth='202006';
+
 insert overwrite table stock.bx_top10_smmary partition(yearmonth=${yearmonth})
 select
 	bx.code as code,
 	name,
-	last_month.history_jme+month_jme as history_jme,
+	nvl(last_month.history_jme, 0)+month_jme as history_jme,
 	month_jme,
 	time,
 	max_zdf,
 	min_zdf,
-	(last_price-first_price)/first_price*100 as month_zdf,
-	classify,
+	(last_price-first_price)/first_price*100 as month_zdf, --该结果仅供参考，因为stock details采用不复权，可能导致结果差异很大
+	bx.classify as classify,
 	date_set
 from
 (
@@ -62,11 +64,12 @@ on bx.code=details.code and details.num=1
 
 left join
 (
-	select code, history_jme
+	select code, history_jme, classify,
+	    row_number() over(partition by code, classify)num
 	from stock.bx_top10_smmary
 	where yearmonth=substr(from_unixtime(unix_timestamp('${yearmonth}01', 'yyyyMMdd')-86400, 'yyyyMMdd'), 0, 6)
 )last_month
-on bx.code=last_month.code
+on bx.code=last_month.code and bx.classify=last_month.classify and last_month.num=1
 
 sort by
 	time desc,

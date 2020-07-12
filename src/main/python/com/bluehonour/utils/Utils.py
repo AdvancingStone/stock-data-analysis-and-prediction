@@ -106,11 +106,3 @@ class Utils:
         except Exception:
             return False
 
-
-# if __name__ == '__main__':
-#     week = Utils.date2weekday("20200616")
-#     print(week)
-#     stock_path = Utils.get_stock_data_path()
-#     print(stock_path)
-#     # flag = Utils.remkdir("D:/git_project/如何用深度强化学习自动炒股/a")
-#     # print(flag)
