@@ -69,7 +69,7 @@ class HistoryDragonTigerList():
 
         query_elem = '//*[@id="divSjri"]/div[2]/div[2]'
         self.load_page_by_xpath(self.WAIT, query_elem).click()
-        time.sleep(6)
+        time.sleep(8)
         print("时间修改完毕"+start_date+"\t"+end_date)
 
     def analysis_page_source(self, html, filename):
@@ -118,7 +118,7 @@ class HistoryDragonTigerList():
         获取当前页面
         :return:
         """
-        time.sleep(6)
+        time.sleep(8)
         # 获取当前页面句柄
         current_window = self.driver.current_window_handle
         # 获取所有页面句柄
