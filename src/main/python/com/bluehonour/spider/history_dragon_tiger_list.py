@@ -39,7 +39,7 @@ class HistoryDragonTigerList():
         self.driver = webdriver.Firefox(executable_path='geckodriver', options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 
         self.current_url = "http://data.eastmoney.com/stock/tradedetail.html"
-        self.WAIT = WebDriverWait(self.driver, 10)
+        self.WAIT = WebDriverWait(self.driver, 15)
 
     def load_page_by_xpath(self, web_driver_wait, xpath_elem):
         """
@@ -69,7 +69,7 @@ class HistoryDragonTigerList():
 
         query_elem = '//*[@id="divSjri"]/div[2]/div[2]'
         self.load_page_by_xpath(self.WAIT, query_elem).click()
-        time.sleep(8)
+        time.sleep(10)
         print("时间修改完毕"+start_date+"\t"+end_date)
 
     def analysis_page_source(self, html, filename):
@@ -118,7 +118,7 @@ class HistoryDragonTigerList():
         获取当前页面
         :return:
         """
-        time.sleep(8)
+        time.sleep(10)
         # 获取当前页面句柄
         current_window = self.driver.current_window_handle
         # 获取所有页面句柄
@@ -129,7 +129,7 @@ class HistoryDragonTigerList():
                 self.driver.switch_to.window(new_window)
         # 隐式等待n秒,解释JavaScript是需要时间的，如果短了就无法正常获取数据，如果长了浪费时间；
         # implicitly_wait()给定时间智能等待
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(15)
 
 
     def get_stock_data(self, path, start_date, end_date):
