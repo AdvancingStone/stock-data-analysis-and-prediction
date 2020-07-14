@@ -27,7 +27,7 @@ stored as textfile;
 -- 排名	代码	股票简称	收盘价		涨跌幅		深股通净买额	深股通买入金额	深股通卖出金额	深股通成交金额	交易所			dt2			dt		weekday
 -- 1	600519	贵州茅台	1226.00		2.41		7507.36万		8.02亿			7.26亿			15.28亿			上证			2020-04-17	20200417
 
-create table if not exists stock.bx_day_volumn_top10(
+create table if not exists stock.bx_day_volume_top10(
 xh int comment '序号',
 code int comment '代码',
 name string comment '名称',
@@ -218,8 +218,35 @@ fields terminated by '\t'
 collection items terminated by ';'
 stored as textfile;
 
-
-
-
-
+--龙虎榜汇总分析
+create table if not exists stock.dragon_tiger_list_aggregate_analyze(
+code string comment '股票代码', 
+name string comment '股票名称',
+dt string comment '上榜日',
+is_rise string comment '是否涨跌',
+trade_type string comment '交易类型',
+funding_source string comment '资金来源',
+jd string comment '解读',
+spj decimal(20, 4) comment'收盘价',
+zdf decimal(20, 4) comment '涨跌幅',
+jme decimal(20, 4) comment '龙虎榜净买额(万)',
+mrje decimal(20, 4) comment '龙虎榜买入金额(万)',
+mcje decimal(20, 4) comment '龙虎榜卖出金额(万)',
+cjje decimal(20, 4) comment '龙虎榜成交金额(万)',
+sczcjje decimal(20, 4) comment '市场总成交金额(万)',
+jmje_rate decimal(20, 4) comment '净买金额占总成交比',
+cjje_rate decimal(20, 4) comment '成交金额占总成交比',
+hsl decimal(20, 4) comment '换手率',
+ltsz decimal(20, 4) comment '流通市值(亿)',
+sbyy string comment '上榜原因',
+zdf_t1 decimal(20, 4) comment '上榜后1日涨跌幅',
+zdf_t2 decimal(20, 4) comment '上榜后2日涨跌幅',
+zdf_t5 decimal(20, 4) comment '上榜后5日涨跌幅',
+zdf_t10 decimal(20, 4) comment '上榜后10日涨跌幅',
+weekday string comment '星期几'
+)comment '龙虎榜成交量和涨幅榜top10汇总分析'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
+row format delimited
+fields terminated by '\t'
+stored as textfile;
 

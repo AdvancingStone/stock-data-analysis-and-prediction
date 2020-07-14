@@ -39,7 +39,7 @@ from
 		from
 		(
 			select code, name, dt, zdf, '成交量' as classify, jme
-			from stock.bx_day_volumn_top10
+			from stock.bx_day_volumnbx_day_volume_top10_top10
 			where yearmonth=${yearmonth}
 		)volume
 	)tmp

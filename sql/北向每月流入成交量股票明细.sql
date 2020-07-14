@@ -30,7 +30,7 @@ from
 (
 	select
 		xh, code, name, spj, zdf, jme, mrje, mcje, cjje, jys, dt, dt2, weekday
-	from stock.bx_day_volumn_top10
+	from stock.bx_day_volume_top10
 	where yearmonth=${yearmonth}
 )bx_volumn
 
