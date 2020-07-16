@@ -250,3 +250,27 @@ row format delimited
 fields terminated by '\t'
 stored as textfile;
 
+--龙虎榜上榜条件
+create table if not exists stock.dragon_tiger_list_condition(
+condition string comment '上榜条件'
+);
+
+--龙虎榜条件分析
+create table if not exists stock.dragon_tiger_list_condition_analyze(
+condition string comment '上榜条件',
+funding_source string comment '资金来源',
+trade_type string comment '交易类型',
+total_time int comment '上榜总次数',
+t1_rise_time int comment 'T+1个交易日上涨次数',
+t2_rise_time int comment 'T+2个交易日上涨次数',
+t5_rise_time int comment 'T+5个交易日上涨次数',
+t10_rise_time int comment 'T+10个交易日上涨次数',
+t1_rise_frequency decimal(10, 2) comment 'T+1个交易日上涨频率',
+t2_rise_frequency decimal(10, 2) comment 'T+1个交易日上涨频率',
+t5_rise_frequency decimal(10, 2) comment 'T+1个交易日上涨频率',
+t10_rise_frequency decimal(10, 2) comment 'T+1个交易日上涨频率'
+)comment '龙虎榜上榜原因'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
+row format delimited
+fields terminated by '\t'
+stored as textfile;

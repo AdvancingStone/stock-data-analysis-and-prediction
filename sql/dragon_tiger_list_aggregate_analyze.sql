@@ -1,5 +1,5 @@
 set hivevar:yearmonth='202006';
-
+--龙虎榜汇总
 insert overwrite table stock.dragon_tiger_list_aggregate_analyze partition(yearmonth=${yearmonth})
 select
 	code,

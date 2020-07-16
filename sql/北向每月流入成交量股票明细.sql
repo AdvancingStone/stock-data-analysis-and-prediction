@@ -1,5 +1,5 @@
 set hivevar:yearmonth='202006';
-
+--北向每月流入成交量股票明细
 select
 	bx_volumn.xh as `榜几`,
 	bx_volumn.code as `股票代码`,

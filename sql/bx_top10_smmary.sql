@@ -1,5 +1,6 @@
 set hivevar:yearmonth='202006';
 
+--北向涨幅和成交量榜top10汇总
 insert overwrite table stock.bx_top10_smmary partition(yearmonth=${yearmonth})
 select
 	bx.code as code,

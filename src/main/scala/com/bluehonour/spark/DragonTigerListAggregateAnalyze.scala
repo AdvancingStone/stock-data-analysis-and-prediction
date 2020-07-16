@@ -19,7 +19,7 @@ object DragonTigerListAggregateAnalyze {
     spark.sql("use stock")
     spark.sql(
       s"""
-        |insert overwrite table stock.dragon_tiger_list_aggregation_analysis partition(yearmonth=${YEAR_MONTH})
+        |insert overwrite table stock.dragon_tiger_list_aggregate_analyze partition(yearmonth=${YEAR_MONTH})
         |select
         |	code,
         |	name,
