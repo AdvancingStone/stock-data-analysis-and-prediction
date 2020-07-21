@@ -112,6 +112,33 @@ row format delimited
 fields terminated by '\t'
 stored as textfile;
 
+-- 个股资金流
+--序号	代码	名称	收盘价	涨跌幅	主力净流入净额	主力净流入净占比	超大单净流入净额	超大单净流入净占比	大单净流入净额	大单净流入净占比	中单净流入净额	中单净流入净占比	小单净流入净额	小单净流入净占比	dt		weekday
+--1		000100	TCL科技	6.96	3.88	5.67亿			10.05				6.37亿				11.29				-7000.35万		-1.24				-3.14亿			-5.56				-2.53亿			-4.48				20200721	星期二
+create table if not exists stock.single_stock_fund_flow(
+xh int comment '序号',
+code string comment '代码',
+name string comment '名称',
+spj decimal(20, 4) comment '收盘价',
+zdf decimal(10, 2) comment '涨跌幅(%)',
+zljlrje string comment '主力净流入净额',
+zljlrjzb decimal(10, 2) comment '主力净流入净占比(%)',
+cddjlrje string comment '超大单净流入净额',
+cddjlrjzb decimal(10, 2) comment '超大单净流入净占比(%)',
+ddjlrje string comment '大单净流入净额',
+ddjlrjzb decimal(10, 2) comment '大单净流入净占比(%)',
+zdjlrje string comment '中单净流入净额',
+zdjlrjzb decimal(10, 2) comment '中单净流入净占比(%)',
+xdjlrje string comment '小单净流入净额',
+xdjlrjzb decimal(10, 2) comment '小单净流入净占比(%)',
+dt string comment 'date format yyyyMMdd',
+weekday string comment '星期几'
+) comment '主力每天板块资金流'
+partitioned by (yearmonth string comment '分区年月 format yyyyMM')
+row format delimited
+fields terminated by '\t'
+stored as textfile;
+
 -- 交易日查询，判断每个自然日是不是交易日(1表示交易日，0表示非交易日)
 -- calendar_date,is_trading_day
 -- 2020-05-01,0
