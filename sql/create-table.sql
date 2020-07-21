@@ -81,7 +81,7 @@ tblproperties("skip.header.line.count"="1");
 
 
 -- 北向历史时间
-create table if not exists bx_action_date(
+create table if not exists stock.bx_action_date(
 dt string comment 'date format yyyyMMdd'
 )comment '北向买卖A股的时间';
 
@@ -133,7 +133,7 @@ xdjlrje string comment '小单净流入净额',
 xdjlrjzb decimal(10, 2) comment '小单净流入净占比(%)',
 dt string comment 'date format yyyyMMdd',
 weekday string comment '星期几'
-) comment '主力每天板块资金流'
+) comment '个股资金流'
 partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
 fields terminated by '\t'
@@ -236,8 +236,7 @@ max_zdf decimal(20, 4) comment '最大涨跌幅',
 min_zdf decimal(20, 4) comment '最小涨跌幅',
 month_zdf decimal(20, 4) comment '本月涨跌幅',
 classify string comment '分类',
-date_set array<string>
-comment '日期集'
+date_set array<string> comment '日期集'
 )comment '北向成交量和涨幅榜top10汇总'
 partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited
