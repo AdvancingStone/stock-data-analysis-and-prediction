@@ -23,7 +23,7 @@ from
 		min(zdf) as min_zdf,
 		classify,
 		sum(jme) as month_jme,
-		collect_set(dt) as date_set
+		concat_ws(',', sort_array(collect_set(dt))) as date_set
 	from
 	(
 		select code, name, dt, zdf, '涨幅' as classify, '' as jme
@@ -40,7 +40,7 @@ from
 		from
 		(
 			select code, name, dt, zdf, '成交量' as classify, jme
-			from stock.bx_day_volumnbx_day_volume_top10_top10
+			from stock.bx_day_volume_top10
 			where yearmonth=${yearmonth}
 		)volume
 	)tmp
@@ -66,9 +66,9 @@ on bx.code=details.code and details.num=1
 left join
 (
 	select code, history_jme, classify,
-	    row_number() over(partition by code, classify)num
+	    row_number() over(partition by code, classify order by yearmonth desc)num
 	from stock.bx_top10_smmary
-	where yearmonth=substr(from_unixtime(unix_timestamp('${yearmonth}01', 'yyyyMMdd')-86400, 'yyyyMMdd'), 0, 6)
+	where yearmonth<=substr(from_unixtime(unix_timestamp('${yearmonth}01', 'yyyyMMdd')-86400, 'yyyyMMdd'), 0, 6)
 )last_month
 on bx.code=last_month.code and bx.classify=last_month.classify and last_month.num=1
 

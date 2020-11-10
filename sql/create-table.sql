@@ -236,7 +236,8 @@ max_zdf decimal(20, 4) comment '最大涨跌幅',
 min_zdf decimal(20, 4) comment '最小涨跌幅',
 month_zdf decimal(20, 4) comment '本月涨跌幅',
 classify string comment '分类',
-date_set array<string> comment '日期集'
+-- date_set array<string> comment '日期集'
+date_set string comment '日期集'
 )comment '北向成交量和涨幅榜top10汇总'
 partitioned by (yearmonth string comment '分区年月 format yyyyMM')
 row format delimited

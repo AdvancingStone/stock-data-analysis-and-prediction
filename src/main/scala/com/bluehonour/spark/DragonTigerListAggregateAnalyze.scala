@@ -3,7 +3,7 @@ package com.bluehonour.spark
 import org.apache.spark.sql.SparkSession
 
 object DragonTigerListAggregateAnalyze {
-  val YEAR_MONTH = "202005"
+  val yearmonth = Parameter.YEAR_MONTH
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .appName(s"${this.getClass.getCanonicalName}")
@@ -19,7 +19,7 @@ object DragonTigerListAggregateAnalyze {
     spark.sql("use stock")
     spark.sql(
       s"""
-        |insert overwrite table stock.dragon_tiger_list_aggregate_analyze partition(yearmonth=${YEAR_MONTH})
+        |insert overwrite table stock.dragon_tiger_list_aggregate_analyze partition(yearmonth=${yearmonth})
         |select
         |	code,
         |	name,
@@ -79,7 +79,7 @@ object DragonTigerListAggregateAnalyze {
         |	(
         |		select code, name, dt, jd, spj, zdf, jme, mrje, mcje, cjje, sczcjje, jmje_rate, cjje_rate, hsl, ltsz, sbyy, t1, t2, t5, t10, weekday
         |		from stock.history_dragon_tiger_list
-        |		where yearmonth='${YEAR_MONTH}'
+        |		where yearmonth='${yearmonth}'
         |	)list
         |	sort by
         |	flag desc,

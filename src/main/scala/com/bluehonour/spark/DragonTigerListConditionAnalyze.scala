@@ -3,7 +3,7 @@ package com.bluehonour.spark
 import org.apache.spark.sql.SparkSession
 
 object DragonTigerListConditionAnalyze {
-  val YEAR_MONTH = "202006"
+  val yearmonth = Parameter.YEAR_MONTH
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .appName(s"${this.getClass.getCanonicalName}")
@@ -19,7 +19,7 @@ object DragonTigerListConditionAnalyze {
     spark.sql("use stock")
     spark.sql(
       s"""
-        |insert overwrite table stock.dragon_tiger_list_condition_analyze partition(yearmonth=${YEAR_MONTH})
+        |insert overwrite table stock.dragon_tiger_list_condition_analyze partition(yearmonth=${yearmonth})
         |select
         |	condition,
         |	funding_source,
@@ -45,7 +45,7 @@ object DragonTigerListConditionAnalyze {
         |		sum(if(d.zdf_t2 is not null and d.zdf_t5 is not null and d.zdf_t5>d.zdf_t2, 1, 0)) as t5_rise_time,
         |		sum(if(d.zdf_t5 is not null and d.zdf_t10 is not null and d.zdf_t10>d.zdf_t5, 1, 0)) as t10_rise_time
         |	from stock.dragon_tiger_list_aggregate_analyze d
-        |	where yearmonth=${YEAR_MONTH}
+        |	where yearmonth=${yearmonth}
         |	group by
         |		sbyy, funding_source, trade_type
         |)a

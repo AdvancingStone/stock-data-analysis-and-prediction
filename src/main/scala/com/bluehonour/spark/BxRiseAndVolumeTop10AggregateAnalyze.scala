@@ -3,11 +3,11 @@ package com.bluehonour.spark
 import org.apache.spark.sql.SparkSession
 
 object BxRiseAndVolumeTop10AggregateAnalyze {
-  val YEAR_MONTH = "202005"
+  val yearmonth = Parameter.YEAR_MONTH
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .appName(s"${this.getClass.getCanonicalName}")
-      .master("local[4]")
+      .master("local[8]")
       //      .master("spark://master:7077")
       // 连接hive地址，如果复制hive-site.xml到resources下，则不需要此配置
       .config("hive.metastore.uris", "thrift://master:9083")
@@ -19,7 +19,7 @@ object BxRiseAndVolumeTop10AggregateAnalyze {
     spark.sql("use stock")
     spark.sql(
       s"""
-        |insert overwrite table stock.bx_top10_smmary partition(yearmonth=${YEAR_MONTH})
+        |insert overwrite table stock.bx_top10_smmary partition(yearmonth=${yearmonth})
         |select
         |	bx.code as code,
         |	name,
@@ -41,12 +41,12 @@ object BxRiseAndVolumeTop10AggregateAnalyze {
         |		min(zdf) as min_zdf,
         |		classify,
         |		sum(jme) as month_jme,
-        |		collect_set(dt) as date_set
+        |   concat_ws('|', sort_array(collect_set(dt))) as date_set
         |	from
         |	(
         |		select code, name, dt, zdf, '涨幅' as classify, '' as jme
         |		from stock.bx_day_rise_top10
-        |		where yearmonth=${YEAR_MONTH}
+        |		where yearmonth=${yearmonth}
         |
         |		union
         |
@@ -59,7 +59,7 @@ object BxRiseAndVolumeTop10AggregateAnalyze {
         |		(
         |			select code, name, dt, zdf, '成交量' as classify, jme
         |			from stock.bx_day_volume_top10
-        |			where yearmonth=${YEAR_MONTH}
+        |			where yearmonth=${yearmonth}
         |		)volume
         |	)tmp
         |	group by code, classify
@@ -75,7 +75,7 @@ object BxRiseAndVolumeTop10AggregateAnalyze {
         |		select substr(code, 4, 6)code, close, dt,
         |			row_number() over(partition by substr(code, 4, 6), dt order by if(peTTM!=0, 1, 0)desc)num --去除非股票的指数
         |		from stock.stock_details
-        |		where yearmonth=${YEAR_MONTH}
+        |		where yearmonth=${yearmonth}
         |	)tmp
         |	where tmp.num=1
         |)details
@@ -84,15 +84,15 @@ object BxRiseAndVolumeTop10AggregateAnalyze {
         |left join
         |(
         |	select code, history_jme, classify,
-        |	    row_number() over(partition by code, classify)num
+        |	    row_number() over(partition by code, classify order by yearmonth desc)num
         |	from stock.bx_top10_smmary
-        |	where yearmonth=substr(from_unixtime(unix_timestamp('${YEAR_MONTH}01', 'yyyyMMdd')-86400, 'yyyyMMdd'), 0, 6)
+        |	where yearmonth<=substr(from_unixtime(unix_timestamp('${yearmonth}01', 'yyyyMMdd')-86400, 'yyyyMMdd'), 0, 6)
         |)last_month
         |on bx.code=last_month.code and bx.classify=last_month.classify and last_month.num=1
         |
         |sort by
         |	time desc,
         |	month_zdf desc
-        |""".stripMargin)
+        |""".stripMargin).show()
   }
 }
