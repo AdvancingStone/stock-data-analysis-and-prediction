@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import time
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -38,7 +38,7 @@ class SingleStockFundFlow:
     个股资金流
     """
     def get_single_stock_fund_flow_data(self, path):
-        date = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#updateTime_2")))
+        date = driver.find_element_by_xpath("/html/body/div[1]/div[8]/div[2]/div[8]/div[1]/div[1]/span/span")
         date = date.text.replace("-", "")
         weekday = Utils.Utils.date2weekday(date)
         yearmonth = date[:-2]
@@ -52,37 +52,50 @@ class SingleStockFundFlow:
             return
 
         driver.get("http://data.eastmoney.com/zjlx/detail.html")
-        WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#PageCont")))
+        WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footerTop")))
         # 获取下一页元素
-        next_page = driver.find_element_by_xpath("//*[@id='PageCont']/a[last()-1]")
-        max_page_elem = driver.find_element_by_xpath("//*[@id='PageCont']/a[last()-2]").get_attribute("textContent")
-        # 获取最大页面
+        next_page = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()]")
+        max_page_elem = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()-1]").get_attribute("textContent")
+        # 获取最大页面                                //*[@id="dataview"]/div[3]/div[1]/a[8]
         max_page = int(str(max_page_elem).strip())
         print("共", max_page, "页数据")
-        print("获取第1页")
+        print("获取第 1 页数据")
         global column_list
         for i in range(0, max_page):
             if i != 0:
                 print("获取第", i+1, "页数据")
                 next_page.click()
-                WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#PageCont")))
-                next_page = driver.find_element_by_xpath("//*[@id='PageCont']/a[last()-1]")
+                time.sleep(5)
+                WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footerTop")))
+                WAIT.until(EC.presence_of_element_located((By.XPATH, "//*[@id='dataview']/div[3]/div[1]/a[last()-1]")))
+                next_page = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()]")
             html = driver.page_source
+            # print(html)
             soup = BeautifulSoup(html, 'lxml')
-            list = soup.find(class_='maincont').find(class_='tab1')
+            list = soup.find(class_='dataview-body')
 
-            if i==0:
-                title_items = list.find(class_='h101').find_all('th')   #获取标题
-                for item in title_items:
-                    if item.string!='相关':
-                        title_list.append(item.string)
-                title_list.append('日期')
+            if i==max_page-1:
+                title_list.append('序号')
+                title_list.append('代码')
+                title_list.append('名称')
+                title_list.append('最新价')
+                title_list.append('今日涨跌幅')
+                title_list.append('主力净流入净额')
+                title_list.append('主力净流入净占比')
+                title_list.append('超大单净流入净额')
+                title_list.append('超大单净流入净占比')
+                title_list.append('大单净流入净额')
+                title_list.append('大单净流入净占比')
+                title_list.append('中单净流入净额')
+                title_list.append('中单净流入净占比')
+                title_list.append('小单净流入净额')
+                title_list.append('小单净流入净占比')
                 title_list.append('星期')
                 Utils.Utils.print_title(title_list)
                 title_list.clear()
 
 
-            content_items = list.select("tbody > tr")
+            content_items = list.select("table > tbody > tr")
             for tr_item in content_items:
                 td_items = tr_item.select("td")
                 for td_item in td_items:

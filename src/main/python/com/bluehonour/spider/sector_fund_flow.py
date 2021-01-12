@@ -40,7 +40,7 @@ class SectorFundFlow:
     板块资金流
     """
     def get_sector_fund_flow_data(self, path):
-        date = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#updateTime_2")))
+        date = driver.find_element_by_xpath("/html/body/div[1]/div[8]/div[2]/div[8]/div[1]/div[1]/span/span")
         date = date.text.replace("-", "")
         weekday = Utils.Utils.date2weekday(date)
         yearmonth = date[:-2]
@@ -54,26 +54,36 @@ class SectorFundFlow:
             return
 
         driver.get("http://data.eastmoney.com/bkzj/hy.html")
-        WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#PageCont")))
+        WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footersm")))
         # 获取下一页元素
-        next_page = driver.find_element_by_xpath("//*[@id='PageCont']/a[last()-1]")
-        max_page_elem = driver.find_element_by_xpath("//*[@id='PageCont']/a[last()-2]").get_attribute("textContent")
-        # 获取最大页面
-        max_page = int(str(max_page_elem).strip())
+        next_page = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[3]")
+        # max_page_elem = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[3]").get_attribute("textContent")
+        # 获取最大页面           //*[@id="dataview"]/div[3]/div[1]/a[3]
+        # max_page = int(str(max_page_elem).strip())
         global column_list
-        for i in range(0, max_page):
+        for i in range(0, 2):
             if i != 0:
                 next_page.click()
-                WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#PageCont")))
+                WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footersm")))
             html = driver.page_source
             soup = BeautifulSoup(html, 'lxml')
-            list = soup.find(class_='maincont').find(class_='tab1')
+            list = soup.find(class_='dataview-body')
 
             if i==0:
-                title_items = list.find(class_='h101').find_all('th')   #获取标题
-                for item in title_items:
-                    if item.string!='相关':
-                        title_list.append(item.string)
+                title_list.append('序号')
+                title_list.append('名称')
+                title_list.append('今日涨跌幅')
+                title_list.append('主力净流入净额')
+                title_list.append('主力净流入净占比')
+                title_list.append('超大单净流入净额')
+                title_list.append('超大单净流入净占比')
+                title_list.append('大单净流入净额')
+                title_list.append('大单净流入净占比')
+                title_list.append('中单净流入净额')
+                title_list.append('中单净流入净占比')
+                title_list.append('小单净流入净额')
+                title_list.append('小单净流入净占比')
+                title_list.append('净流入最大股')
                 title_list.append('日期')
                 Utils.Utils.print_title(title_list)
                 title_list.clear()
