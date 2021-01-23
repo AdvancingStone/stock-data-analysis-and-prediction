@@ -44,14 +44,13 @@ class BxHistoryVolumeTop10:
 
     def get_stock_data(self, path):
         for index in range(0, 2):
-            page_load_complete = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".titbar > .tit")))
+            page_load_complete = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "body > div.main > div.footFrame > p.footerTop > a")))
             print("页面加载完成")
             if index == 0:
                 jys = "上证"
                 html = driver.page_source
                 soup = BeautifulSoup(html, 'lxml')
-                content_date = soup.select(".titbar > .tit")[1].string
-                (content, date) = str(content_date).split()
+                date = soup.select("body > div.main > div.main-content > div.framecontent > div.maincont.top10_maincont > div:nth-child(4) > div.title > span")[0].string
                 dt2 = date[1:-3] # yyyy-MM-dd
                 dt = dt2.replace("-", "") # yyyyMMdd
                 weekday = Utils.Utils.date2weekday(dt)
@@ -59,14 +58,14 @@ class BxHistoryVolumeTop10:
             else:
                 jys = "深证"
 
-            list = soup.select(".sitebody > .maincont > .contentBox > .content > .tab1")[index]
+            list = soup.select("div.dataview-center > div.dataview-body > table")[index]
             # 写入时间
             if index == 0:
                 data_list.append(dt)
 
-            title_items = list.find(class_='h101').find_all('th')   #获取标题
+            title_items = list.find("thead").find_all('th')   #获取标题
             for item in title_items:
-                if '相关' not in item.string:
+                if '相关链接' not in item.text:
                     title_list.append(item.text)
             title_list.append("交易所")
             title_list.append("dt2")
@@ -75,7 +74,6 @@ class BxHistoryVolumeTop10:
 
             global column_list
             content_items = list.select("tbody > tr")
-            # print(content_items)
             for tr_item in content_items:
                 td_items = tr_item.select("td")
                 for td_item in td_items:
@@ -168,6 +166,8 @@ if __name__ == '__main__':
         print("请输入起始日期和结束日期，格式  yyyyMMdd")
         start_date = input("起始日期: ")
         end_date = input("结束日期: ")
+        # start_date = "20200101"
+        # end_date = "20200105"
         yearmonth = start_date[:6]
         path = stock_root_path + '/bx_history_volume/'
         if not os.path.exists(path):

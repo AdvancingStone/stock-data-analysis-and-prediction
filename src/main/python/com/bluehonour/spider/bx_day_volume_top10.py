@@ -46,26 +46,26 @@ class BxDayVolumeTop10:
         :return: 股票数据的绝对路径地址
         """
         if jys.__eq__("深证"):
-            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mk_sdcjg > #SGT_3")))
+            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#lssj_filter > ul > li.linklab.spe-padding.at")))
             input.click()
         html = driver.page_source
         soup = BeautifulSoup(html, 'lxml')
-        date = soup.select_one("#inputDate").string
+        date = soup.select_one("#updateTime_bxzj").string
         dt2 = date # yyyy-MM-dd
         dt = date.replace("-", "") # yyyyMMdd
         weekday = Utils.Utils.date2weekday(dt)
-
-        list = soup.find_all(class_='maincont')[2].find(class_='tab1')
-
+        list = soup.find(id="dataview_top10").find(class_='dataview-center').find(class_='dataview-body')
         if jys.__eq__("深证"):
-            title_items = list.find(class_='h101').find_all('th')  # 获取标题
+            title_items = list.select("thead > tr")  # 获取标题
             for item in title_items:
-                if '相关' not in item.text:
-                    title_list.append(item.text)
-            title_list.append("交易所")
-            title_list.append("dt2")
-            title_list.append("dt")
-            title_list.append("weekday")
+                th_items = item.select("th")
+                for th_item in th_items:
+                    if th_item.string != '相关':
+                        title_list.append(th_item.string)
+                title_list.append('交易所')
+                title_list.append("dt2")
+                title_list.append("dt")
+                title_list.append("weekday")
 
         global column_list
         content_items = list.select("tbody > tr")
