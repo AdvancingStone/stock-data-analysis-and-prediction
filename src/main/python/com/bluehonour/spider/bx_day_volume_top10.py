@@ -46,7 +46,7 @@ class BxDayVolumeTop10:
         :return: 股票数据的绝对路径地址
         """
         if jys.__eq__("深证"):
-            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#lssj_filter > ul > li.linklab.spe-padding.at")))
+            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#top10_filter > ul > li:nth-child(2)")))
             input.click()
         html = driver.page_source
         soup = BeautifulSoup(html, 'lxml')
