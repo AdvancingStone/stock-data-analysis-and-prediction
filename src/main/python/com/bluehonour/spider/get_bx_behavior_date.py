@@ -7,18 +7,22 @@ from bs4 import BeautifulSoup
 from chinese_calendar import is_workday
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from utils import Utils
 
-
 # 使用以下三行代码可以不弹出界面，实现无界面爬取
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+# 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                          options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 
 driver.get("http://data.eastmoney.com/hsgt/top10.html")
 current_url = driver.current_url
@@ -37,12 +41,11 @@ class BxBehaviorDate:
         soup = BeautifulSoup(html, 'lxml')
         content_date = soup.select(".titbar > .tit")[1].string
         (content, date) = str(content_date).split()
-        dt2 = date[1:-3] # yyyy-MM-dd
-        dt = dt2.replace("-", "") # yyyyMMdd
-        what_day = date[-3:-1] #周一
+        dt2 = date[1:-3]  # yyyy-MM-dd
+        dt = dt2.replace("-", "")  # yyyyMMdd
+        what_day = date[-3:-1]  # 周一
         print(dt2, dt, what_day)
         date_list.append(dt)
-
 
     def get_interval_range_data(self, start_date, end_date):
         """
@@ -52,8 +55,8 @@ class BxBehaviorDate:
         :param end_date: 结束时间
         """
         next_one_day = timedelta(days=1)
-        start_date = datetime.strptime(start_date,'%Y%m%d').date()
-        end_date = datetime.strptime(end_date,'%Y%m%d').date()
+        start_date = datetime.strptime(start_date, '%Y%m%d').date()
+        end_date = datetime.strptime(end_date, '%Y%m%d').date()
 
         while end_date >= start_date:
             # print(end_date)
@@ -82,6 +85,7 @@ class BxBehaviorDate:
         finally:
             driver.quit()
 
+
 if __name__ == '__main__':
     try:
         print("请输入起始日期和结束日期，格式  yyyyMMdd")
@@ -90,11 +94,11 @@ if __name__ == '__main__':
         path = Utils.Utils.get_stock_data_path() + '/bx_behavior_date/'
         if not os.path.exists(path):
             os.makedirs(path)
-        date_file = path+start_date+'-'+end_date
+        date_file = path + start_date + '-' + end_date
         if not os.path.exists(date_file):
             BxBehaviorDate().get_interval_range_data(start_date, end_date)
             Utils.Utils.save_date(date_file, date_list, 'w')
         else:
-            print(start_date+','+end_date+" 北向日期已经存在")
+            print(start_date + ',' + end_date + " 北向日期已经存在")
     finally:
         driver.quit()

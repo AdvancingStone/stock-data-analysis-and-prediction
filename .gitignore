@@ -5,4 +5,5 @@ target/
 __pycache__
 test
 *.log
-venu/
+venv/
+config.ini

@@ -2,19 +2,20 @@
 
 from pathlib import Path
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 import sys
 import os
-#__file__获取执行文件相对路径，整行为取上一级的上一级目录
+
+# __file__获取执行文件相对路径，整行为取上一级的上一级目录
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from utils import Utils
-
 
 """
 获取行业资金流信息
@@ -29,8 +30,11 @@ column_list = []  # 列
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-
+options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+# 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                          options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 driver.get("http://data.eastmoney.com/zjlx/dpzjlx.html")
 WAIT = WebDriverWait(driver, 10)
 
@@ -39,6 +43,7 @@ class SectorFundFlow:
     """
     板块资金流
     """
+
     def get_sector_fund_flow_data(self, path):
         date = driver.find_element_by_xpath("/html/body/div[1]/div[8]/div[2]/div[8]/div[1]/div[1]/span/span")
         date = date.text.replace("-", "")
@@ -69,7 +74,7 @@ class SectorFundFlow:
             soup = BeautifulSoup(html, 'lxml')
             list = soup.find(class_='dataview-body')
 
-            if i==0:
+            if i == 0:
                 title_list.append('序号')
                 title_list.append('名称')
                 title_list.append('今日涨跌幅')
@@ -87,7 +92,6 @@ class SectorFundFlow:
                 title_list.append('日期')
                 Utils.Utils.print_title(title_list)
                 title_list.clear()
-
 
             content_items = list.select("tbody > tr")
             for tr_item in content_items:

@@ -1,23 +1,22 @@
 #!/usr/bin/python
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+
 import sys, os
-from pathlib import Path
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from utils import Utils
 
-
 """
 北向每天买卖成交量前十
 """
-
 
 # 创建一个存放标题的列表
 title_list = []
@@ -30,11 +29,14 @@ options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
 # options.binary_location=r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 # 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
-# driver = webdriver.Chrome(executable_path='chromedriver', options=options)# 配了环境变量第一个参数就可以省了，不然传绝对路径
-driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                          options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 driver.get("http://data.eastmoney.com/hsgt/index.html")
 WAIT = WebDriverWait(driver, 10)
+
 
 class BxDayVolumeTop10:
 
@@ -46,13 +48,14 @@ class BxDayVolumeTop10:
         :return: 股票数据的绝对路径地址
         """
         if jys.__eq__("深证"):
-            input = WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#top10_filter > ul > li:nth-child(2)")))
+            input = WAIT.until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "#top10_filter > ul > li:nth-child(2)")))
             input.click()
         html = driver.page_source
         soup = BeautifulSoup(html, 'lxml')
         date = soup.select_one("#updateTime_bxzj").string
-        dt2 = date # yyyy-MM-dd
-        dt = date.replace("-", "") # yyyyMMdd
+        dt2 = date  # yyyy-MM-dd
+        dt = date.replace("-", "")  # yyyyMMdd
         weekday = Utils.Utils.date2weekday(dt)
         list = soup.find(id="dataview_top10").find(class_='dataview-center').find(class_='dataview-body')
         if jys.__eq__("深证"):
@@ -81,7 +84,7 @@ class BxDayVolumeTop10:
             row_list.append(column_list)
             column_list = []
 
-        absolute_path = path+"/"+dt[:-2]+"/"
+        absolute_path = path + "/" + dt[:-2] + "/"
         if not os.path.isdir(absolute_path):
             os.makedirs(absolute_path)
         return absolute_path + dt
@@ -95,7 +98,6 @@ class BxDayVolumeTop10:
             Utils.Utils.save_file(path, row_list, 'w')
         finally:
             driver.quit()
-
 
 
 if __name__ == '__main__':

@@ -16,7 +16,10 @@ class ReadConfig:
         return value
 
     def get_separator(self):
-        if 'win' in sys.platform:
+        platform = sys.platform
+        if 'darwin'.__eq__(platform):
+            separator = '/'
+        elif 'win' in platform:
             separator = '\\'
         else:
             separator = '/'
@@ -27,11 +30,11 @@ class ReadConfig:
         separator = self.get_separator()
         str = o_path.split(separator)
         while len(str) > 0:
-            spath = separator.join(str)+separator+file
+            spath = separator.join(str) + separator + file
             leng = len(str)
             if os.path.exists(spath):
                 return spath
-            str.remove(str[leng-1])
+            str.remove(str[leng - 1])
         return str
 
 

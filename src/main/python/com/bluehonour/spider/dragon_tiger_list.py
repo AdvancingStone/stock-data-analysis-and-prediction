@@ -5,10 +5,10 @@ import traceback
 from datetime import datetime, timedelta
 
 from bs4 import BeautifulSoup
-from chinese_calendar import is_workday
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -38,7 +38,12 @@ class DragonTigerList():
         self.options = Options()
         self.options.add_argument('--headless')
         self.options.add_argument('--disable-gpu')
-        self.driver = webdriver.Firefox(executable_path='geckodriver', options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+        # self.driver = webdriver.Firefox(executable_path='geckodriver', options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+
+        self.options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        # 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+        self.driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                                       options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 
         self.current_url = "http://data.eastmoney.com/stock/tradedetail.html"
         self.WAIT = WebDriverWait(self.driver, 10)
@@ -67,7 +72,7 @@ class DragonTigerList():
         date_elem = soup.select_one("#search_date_start")
         year = str(date_elem.attrs["value"]).replace('-', '')[0:4]
         date = str(soup.select_one("#divSjri > ul > li:nth-child(1)").text).strip()
-        dt = year+date[0:2]+date[3:5]
+        dt = year + date[0:2] + date[3:5]
         weekday = Utils.Utils.date2weekday(dt)
         yearmonth = dt[:-2]
         path = path + "/" + yearmonth

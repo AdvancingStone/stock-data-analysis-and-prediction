@@ -1,16 +1,16 @@
 #!/usr/bin/python
 import time
-from pathlib import Path
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 import sys
 import os
-#__file__获取执行文件相对路径，整行为取上一级的上一级目录
+
+# __file__获取执行文件相对路径，整行为取上一级的上一级目录
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from utils import Utils
@@ -28,15 +28,20 @@ column_list = []  # 列
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
-driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-
+options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+# 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                          options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
 driver.get("http://data.eastmoney.com/zjlx/dpzjlx.html")
 WAIT = WebDriverWait(driver, 10)
+
 
 class SingleStockFundFlow:
     """
     个股资金流
     """
+
     def get_single_stock_fund_flow_data(self, path):
         date = driver.find_element_by_xpath("/html/body/div[1]/div[8]/div[2]/div[8]/div[1]/div[1]/span/span")
         date = date.text.replace("-", "")
@@ -55,7 +60,8 @@ class SingleStockFundFlow:
         WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footerTop")))
         # 获取下一页元素
         next_page = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()]")
-        max_page_elem = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()-1]").get_attribute("textContent")
+        max_page_elem = driver.find_element_by_xpath("//*[@id='dataview']/div[3]/div[1]/a[last()-1]").get_attribute(
+            "textContent")
         # 获取最大页面                                //*[@id="dataview"]/div[3]/div[1]/a[8]
         max_page = int(str(max_page_elem).strip())
         print("共", max_page, "页数据")
@@ -63,7 +69,7 @@ class SingleStockFundFlow:
         global column_list
         for i in range(0, max_page):
             if i != 0:
-                print("获取第", i+1, "页数据")
+                print("获取第", i + 1, "页数据")
                 next_page.click()
                 time.sleep(5)
                 WAIT.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".footerTop")))
@@ -74,7 +80,7 @@ class SingleStockFundFlow:
             soup = BeautifulSoup(html, 'lxml')
             list = soup.find(class_='dataview-body')
 
-            if i==max_page-1:
+            if i == max_page - 1:
                 title_list.append('序号')
                 title_list.append('代码')
                 title_list.append('名称')
@@ -93,7 +99,6 @@ class SingleStockFundFlow:
                 title_list.append('星期')
                 Utils.Utils.print_title(title_list)
                 title_list.clear()
-
 
             content_items = list.select("table > tbody > tr")
             for tr_item in content_items:

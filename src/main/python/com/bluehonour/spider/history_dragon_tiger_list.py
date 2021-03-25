@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -36,8 +37,11 @@ class HistoryDragonTigerList():
         self.options = Options()
         self.options.add_argument('--headless')
         self.options.add_argument('--disable-gpu')
-        self.driver = webdriver.Firefox(executable_path='geckodriver', options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-
+        self.options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        # 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+        self.driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
+                                  options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+        # self.driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
         self.current_url = "http://data.eastmoney.com/stock/tradedetail.html"
         self.WAIT = WebDriverWait(self.driver, 15)
 
@@ -70,7 +74,7 @@ class HistoryDragonTigerList():
         query_elem = '//*[@id="divSjri"]/div[2]/div[2]'
         self.load_page_by_xpath(self.WAIT, query_elem).click()
         time.sleep(10)
-        print("时间修改完毕"+start_date+"\t"+end_date)
+        print("时间修改完毕" + start_date + "\t" + end_date)
 
     def analysis_page_source(self, html, filename):
         """
@@ -100,10 +104,10 @@ class HistoryDragonTigerList():
                 if i == 17:
                     self.column_list.append(str(td_items[i].select_one('span').attrs['title']).strip())
                 elif i == 4:
-                        month_day = str(td_items[i].text).strip()
-                        dt = year + month_day[0:2] + month_day[3:5]
-                        self.column_list.append(dt)
-                        weekday = Utils.Utils.date2weekday(dt)
+                    month_day = str(td_items[i].text).strip()
+                    dt = year + month_day[0:2] + month_day[3:5]
+                    self.column_list.append(dt)
+                    weekday = Utils.Utils.date2weekday(dt)
                 elif i != 3:
                     self.column_list.append(str(td_items[i].text).strip())
 
@@ -130,7 +134,6 @@ class HistoryDragonTigerList():
         # 隐式等待n秒,解释JavaScript是需要时间的，如果短了就无法正常获取数据，如果长了浪费时间；
         # implicitly_wait()给定时间智能等待
         self.driver.implicitly_wait(15)
-
 
     def get_stock_data(self, path, start_date, end_date):
         """
@@ -175,7 +178,7 @@ class HistoryDragonTigerList():
         max_page_num = int(max_page)
 
         for i in range(0, max_page_num):
-            print("第", i+1, "页")
+            print("第", i + 1, "页")
             self.get_current_window()
             html = self.driver.page_source
             self.analysis_page_source(html, file_name)
@@ -206,4 +209,3 @@ if __name__ == '__main__':
         dtl.get_history_dragon_tiger_list(start_date, end_date)
     finally:
         dtl.driver.quit()
-
