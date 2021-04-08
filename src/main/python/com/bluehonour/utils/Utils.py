@@ -2,6 +2,11 @@
 from pathlib import Path
 import os
 import shutil
+
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
+
 from readConfig import ReadConfig
 from datetime import datetime
 
@@ -106,3 +111,37 @@ class Utils:
         except Exception:
             return False
 
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
+
+    def getDriver():
+        """
+        返回selenium的driver
+        :return:
+        """
+        config = ReadConfig()
+        path = config.find_path("config.ini")
+        config.__read__(path)
+        browser_path = config.get_browser("path")
+        driver_path = config.get_driver("path")
+
+        # self.driver = webdriver.Firefox()
+        # self.driver.set_window_position(0, 0)
+        # self.driver.set_window_size(1400, 900)
+        # self.driver.maximize_window()  # 让窗口最大化
+
+        # 使用以下三行代码可以不弹出界面，实现无界面爬取
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        options.binary_location = browser_path
+        # chrome浏览器配置，添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
+        driver = webdriver.Chrome(executable_path=driver_path,
+                                  options=options)
+        # 火狐浏览器配置
+        # driver = webdriver.Firefox(executable_path='geckodriver', options=options)
+        return driver

@@ -44,14 +44,24 @@ pip install -r requirements.txt
 # deactivate 
 ```
 
-#### 修改数据存放路径
+#### 修改根目录下的config.ini
 
-```
-修改根目录下的config.ini
-存放股票有关数据的地方
-
+```ini
 [stock]
-path=/home/xxx/stock-data
+# 股票数据存放路径
+#path=/Volumes/SharedDisk/stock-data
+path=D:/Volumes/SharedDisk/stock-data
+
+[driver]
+# 浏览器驱动绝对路径（以谷歌浏览器为例）
+#path=/usr/local/software/drivers/chromedriver
+path=D:/driver/chromedriver.exe
+
+[browser]
+# 浏览器绝对路径
+#path=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+path=C:/Program Files/Google/Chrome/Application/chrome.exe
+
 ```
 
 

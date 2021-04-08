@@ -1,14 +1,10 @@
 #!/usr/bin/python
 import os
 import sys
-import traceback
-from datetime import datetime, timedelta
+import time
 
 from bs4 import BeautifulSoup
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -29,22 +25,7 @@ class DragonTigerList():
         self.row_list = []  # 行
         self.column_list = []  # 列
 
-        # self.driver = webdriver.Firefox()
-        # self.driver.set_window_position(0, 0)
-        # self.driver.set_window_size(1400, 900)
-        # self.driver.maximize_window()  # 让窗口最大化
-
-        # 使用以下三行代码可以不弹出界面，实现无界面爬取
-        self.options = Options()
-        self.options.add_argument('--headless')
-        self.options.add_argument('--disable-gpu')
-        # self.driver = webdriver.Firefox(executable_path='geckodriver', options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-
-        self.options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-        # 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
-        self.driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
-                                       options=self.options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-
+        self.driver = Utils.Utils.getDriver()
         self.current_url = "http://data.eastmoney.com/stock/tradedetail.html"
         self.WAIT = WebDriverWait(self.driver, 10)
 
@@ -67,6 +48,7 @@ class DragonTigerList():
         self.driver.get(self.current_url)
         xpath = '//*[@id="divSjri"]/div[1]'
         self.load_page_by_xpath(self.WAIT, xpath).click()
+        time.sleep(10)
         html = self.driver.page_source
         soup = BeautifulSoup(html, 'lxml')
         date_elem = soup.select_one("#search_date_start")

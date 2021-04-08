@@ -2,13 +2,9 @@
 import os
 import sys
 from datetime import datetime, timedelta
-
 from bs4 import BeautifulSoup
 from chinese_calendar import is_workday
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -29,16 +25,7 @@ column_list = []  # 列
 # 北向买卖A股的时间列表
 data_list = []
 
-# 使用以下三行代码可以不弹出界面，实现无界面爬取
-options = Options()
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-# options.binary_location=r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
-options.binary_location = r'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-# 添加options参数， executable_path 可选，配置了环境变量后可省略，不然传该驱动的绝对路径
-driver = webdriver.Chrome(executable_path='/usr/local/software/drivers/chromedriver',
-                          options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
-# driver = webdriver.Firefox(executable_path='geckodriver', options=options)  # 配了环境变量第一个参数就可以省了，不然传绝对路径
+driver = Utils.Utils.getDriver()
 current_url = "http://data.eastmoney.com/hsgt/top10.html"
 WAIT = WebDriverWait(driver, 10)
 

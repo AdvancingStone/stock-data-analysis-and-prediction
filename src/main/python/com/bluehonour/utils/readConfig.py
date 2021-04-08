@@ -15,6 +15,14 @@ class ReadConfig:
         value = self.cf.get("stock", param)
         return value
 
+    def get_browser(self, param):
+        value = self.cf.get("browser", param)
+        return value
+
+    def get_driver(self, param):
+        value = self.cf.get("driver", param)
+        return value
+
     def get_separator(self):
         platform = sys.platform
         if 'darwin'.__eq__(platform):
@@ -44,3 +52,9 @@ if __name__ == '__main__':
     config.__read__(path)
     stock_path = config.get_stock('path')
     print(stock_path)
+
+    driver_path = config.get_driver('path')
+    print(driver_path)
+
+    brower_path = config.get_browser('path')
+    print(brower_path)
