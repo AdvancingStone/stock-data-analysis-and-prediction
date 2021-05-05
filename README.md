@@ -88,6 +88,13 @@ path=C:/Program Files/Google/Chrome/Application/chrome.exe
 | 股票交易日信息                             | [query_trade_dates.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/baostock/query_trade_dates.py) |
 | 当日龙虎榜信息                             | [dragon_tiger_list.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/dragon_tiger_list.py) |
 | 历史龙虎榜信息                             | [history_dragon_tiger_list.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/spider/history_dragon_tiger_list.py) |
+| 实时股票数据（详情+资金流向）              | [real_time_stock_data.py](https://github.com/AdvancingStone/stock-data-analysis-and-prediction/blob/master/src/main/python/com/bluehonour/realtime/real_time_stock_data.py) |
+
+关于实时股票数据，参考文档[real_time_stock_description](./doc/real_time_stock_description.md)
+
+```
+根目录下 doc/real_time_stock_description.md
+```
 
 
 
