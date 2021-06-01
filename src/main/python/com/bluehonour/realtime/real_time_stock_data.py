@@ -105,4 +105,6 @@ def get_stock_real_time_data(*codes):
 
 
 if __name__ == '__main__':
-    get_stock_real_time_data("sh600584", "sz000858", "sh600585");
+    # get_stock_real_time_data("sh600584", "sz000858", "sh600585");
+    get_stock_real_time_data("sh600307")
+

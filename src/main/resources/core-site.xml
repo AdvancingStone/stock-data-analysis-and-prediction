@@ -25,40 +25,14 @@
 		<name>hadoop.tmp.dir</name>
 		<value>/usr/local/hadoopdata</value>
 	</property>
-	<!-- 如果连接不上10000 -->
-
-	<property>     
-		<name>hadoop.proxyuser.root.hosts</name>     
-		<value>*</value>
-	</property> 
-	<property>     
-		<name>hadoop.proxyuser.root.groups</name>    
-		<value>*</value> 
+	<property>
+		<name>hive.server2.thrift.client.user</name>
+		<value>hadoop</value>
+		<description>Username to use against thrift client. default is 'anonymous'</description>
 	</property>
-	<property>     
-		<name>hadoop.proxyuser.liushuai.hosts</name>     
-		<value>*</value> 
-	</property> 
-	<property>     
-		<name>hadoop.proxyuser.liushuai.groups</name>     
-		<value>*</value> 
+	<property>
+		<name>hive.server2.thrift.client.password</name>
+		<value>hadoop</value>
+		<description>Password to use against thrift client. default is 'anonymous'</description>
 	</property>
-	<property>     
-		<name>hadoop.proxyuser.hive.hosts</name>     
-		<value>*</value> 
-	</property> 
-	<property>     
-		<name>hadoop.proxyuser.hive.groups</name>     
-		<value>*</value> 
-	</property>
-	 <property>
-                <name>hadoop.proxyuser.hadoop.hosts</name>
-                <value>*</value>
-        </property>
-        <property>
-                <name>hadoop.proxyuser.hadoop.groups</name>
-                <value>*</value>
-        </property>
-
 </configuration>
-

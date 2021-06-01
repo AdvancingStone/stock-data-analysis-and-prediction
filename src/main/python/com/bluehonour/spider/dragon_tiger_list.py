@@ -46,15 +46,13 @@ class DragonTigerList():
         :return:
         """
         self.driver.get(self.current_url)
-        xpath = '//*[@id="divSjri"]/div[1]'
-        self.load_page_by_xpath(self.WAIT, xpath).click()
-        time.sleep(10)
+        # xpath = '//*[@id="dataview"]/div[3]/div[1]/a[3]'
+        # self.load_page_by_xpath(self.WAIT, xpath).click()
+        # time.sleep(10)
         html = self.driver.page_source
         soup = BeautifulSoup(html, 'lxml')
-        date_elem = soup.select_one("#search_date_start")
-        year = str(date_elem.attrs["value"]).replace('-', '')[0:4]
-        date = str(soup.select_one("#divSjri > ul > li:nth-child(1)").text).strip()
-        dt = year + date[0:2] + date[3:5]
+        date_elem = soup.select_one(".day_type").select_one("li")
+        dt = str(date_elem.attrs["date"]).replace('-', '')
         weekday = Utils.Utils.date2weekday(dt)
         yearmonth = dt[:-2]
         path = path + "/" + yearmonth
@@ -65,30 +63,37 @@ class DragonTigerList():
             print(filename + " 文件已存在...")
             return
 
-        # 获取标题信息
-        title_items = soup.select_one('#tab-1 > thead').find("tr").find_all("th")
-        for item in title_items:
-            if item.text != '相关':
-                self.title_list.append(str(item.text).strip())
-        self.title_list.append("dt")
-        self.title_list.append("星期")
-        Utils.Utils.print_title(self.title_list)
-        self.title_list.clear()
+        # # 获取标题信息
+        # title_items = soup.select_one('#tab-1 > thead').find("tr").find_all("th")
+        # for item in title_items:
+        #     if item.text != '相关':
+        #         self.title_list.append(str(item.text).strip())
+        # self.title_list.append("dt")
+        # self.title_list.append("星期")
+        # Utils.Utils.print_title(self.title_list)
+        # self.title_list.clear()
 
         # 获取股票数据
-        tr_elems = soup.select("#tab-1 > tbody > tr")
-        for tr_elem in tr_elems:
-            td_items = tr_elem.select("td")
-            td_size = len(td_items)
-            for i in range(0, td_size):
-                if i == 16:
-                    self.column_list.append(str(td_items[i].select_one('span').attrs['title']).strip())
-                elif i != 3:
-                    self.column_list.append(str(td_items[i].string).strip())
-            self.column_list.append(dt)
-            self.column_list.append(weekday)
-            self.row_list.append(self.column_list)
-            self.column_list = []
+
+        for i in range(0, 2):
+            if i == 1:
+                xpath = '//*[@id="dataview"]/div[3]/div[1]/a[3]'
+                self.load_page_by_xpath(self.WAIT, xpath).click()
+                time.sleep(10)
+                html = self.driver.page_source
+                soup = BeautifulSoup(html, 'lxml')
+            tr_elems = soup.select(".dataview-body > table > tbody > tr ")
+            for tr_elem in tr_elems:
+                td_items = tr_elem.select("td")
+                td_size = len(td_items)
+                for i in range(0, td_size):
+                    if i != 3:
+                        self.column_list.append(str(td_items[i].string).strip())
+                self.column_list.append(dt)
+                self.column_list.append(weekday)
+                self.row_list.append(self.column_list)
+                self.column_list = []
+        # Utils.Utils.print_title(self.row_list)
         Utils.Utils.save_file(filename, self.row_list, 'w')
         self.row_list.clear()
 

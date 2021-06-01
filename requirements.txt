@@ -5,3 +5,4 @@ selenium
 lxml
 pandas
 baostock
+clickhouse-driver
